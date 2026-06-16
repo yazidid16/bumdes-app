@@ -3,14 +3,14 @@
    SELAMA HALAMAN MASIH DIBUKA
 ===================================== */
 
-// Total seluruh pemasukan
-let totalPemasukan = 0;
+// Total seluruh pengeluaran
+let totalPengeluaran = 0;
 
-// Jumlah transaksi pemasukan
+// Jumlah transaksi pengeluaran
 let jumlahTransaksi = 0;
 
-// Semua data pemasukan
-let dataPemasukan = [];
+// Semua data pengeluaran
+let dataPengeluaran = [];
 
 // Menyimpan index data yang sedang diedit
 let indexEdit = -1;
@@ -20,11 +20,11 @@ let indexEdit = -1;
 ===================================== */
 
 const dataTersimpan =
-localStorage.getItem("dataPemasukan");
+localStorage.getItem("dataPengeluaran");
 
 if (dataTersimpan) {
 
-    dataPemasukan =
+    dataPengeluaran =
     JSON.parse(dataTersimpan);
 
 }
@@ -75,49 +75,59 @@ const sumberTransaksi =
 document.getElementById("sumberTransaksi");
 
 /* =====================================
-   DAFTAR KATEGORI PEMASUKAN
+   DAFTAR KATEGORI pengeluaran
    AGAR MUDAH DITAMBAH KE DEPANNYA
 ===================================== */
 
-const kategoriPemasukan = {
+const kategoriPengeluaran = {
 
    APBDes: [
-      "Dana Desa",
-      "Dana Negara",
+      "Modal Usaha",
+      "Pengembangan Usaha",
+      "Operasional",
+      "Pembelian Aset",
       "Lainnya"
    ],
 
    "Klinik Kesehatan": [
-      "Pemeriksaan Umum",
-      "Konsultasi Kesehatan",
-      "Penjualan Obat",
+      "Obat",
+      "ATK",
+      "Gaji",
+      "Listrik",
+      "Peralatan",
       "Lainnya"
    ],
 
    "Rasio Kopi": [
-      "Penjualan Kopi",
-      "Penjualan Makanan",
+      "Biji Kopi",
+      "Susu",
+      "Gula",
+      "Cup",
+      "Gas",
       "Lainnya"
    ],
 
    "Pariwisata & Camping": [
-      "Tiket Masuk Curug",
-      "Sewa Tenda",
+      "Perawatan Area",
+      "Peralatan Camping",
+      "Promosi",
       "Lainnya"
    ],
 
    "Internet": [
-      "Komisi Internet",
+      "Perangkat",
+      "Maintenance",
+      "Listrik",
       "Lainnya"
    ]
 
 };
 
-// Dropdown Kategori Pemasukan
+// Dropdown Kategori pengeluaran
 const kategori =
 document.getElementById("kategori");
 
-// Input Nominal pemasukan
+// Input Nominal pengeluaran
 const nominal =
 document.getElementById("nominal");
 
@@ -139,14 +149,14 @@ nominal.addEventListener("input", function(){
 const keterangan =
 document.getElementById("keterangan");
 
-// Body tabel riwayat pemasukan
-const tablePemasukan =
-document.getElementById("tablePemasukan");
+// Body tabel riwayat pengeluaran
+const tablePengeluaran =
+document.getElementById("tablePengeluaran");
 
 /* =====================================
    TAMPILKAN DATA DARI LOCAL STORAGE KE TABLE
 ===================================== */
-dataPemasukan.forEach(function(transaksi, index){
+dataPengeluaran.forEach(function(transaksi, index){
    
    const row = `
    <tr>
@@ -171,7 +181,7 @@ data-index="${index}">
    </tr>
    `;
 
-   tablePemasukan.innerHTML += row;
+   tablePengeluaran.innerHTML += row;
 
 });
 
@@ -181,32 +191,32 @@ data-index="${index}">
    AGAR TOTAL SELALU SESUAI DATA TERBARU
 ===================================== */
 
-const cardPemasukanHariIni =
-document.getElementById("cardPemasukanHariIni");
+const cardPengeluaranHariIni=
+document.getElementById("cardPengeluaranHariIni");
 
-const cardTotalPemasukanBulan =
-document.getElementById("cardTotalPemasukanBulan");
+const cardTotalPengeluaranBulan =
+document.getElementById("cardTotalPengeluaranBulan");
 
 const cardJumlahTransaksi =
 document.getElementById("cardJumlahTransaksi");
 
-dataPemasukan.forEach(function(transaksi){
+dataPengeluaran.forEach(function(transaksi){
 
-   totalPemasukan +=
+   totalPengeluaran +=
    Number(transaksi.nominal);
 
 });
 
 jumlahTransaksi =
-dataPemasukan.length;
+dataPengeluaran.length;
 
-cardPemasukanHariIni.textContent =
+cardPengeluaranHariIni.textContent =
 "Rp " +
-totalPemasukan.toLocaleString("id-ID");
+totalPengeluaran.toLocaleString("id-ID");
 
-cardTotalPemasukanBulan.textContent =
+cardTotalPengeluaranBulan.textContent =
 "Rp " +
-totalPemasukan.toLocaleString("id-ID");
+totalPengeluaran.toLocaleString("id-ID");
 
 cardJumlahTransaksi.textContent =
 jumlahTransaksi;
@@ -246,7 +256,7 @@ btnSimpan.addEventListener("click", function () {
     if (
       tanggal === "" ||
       sumber === "" ||
-      kategori.value === "Pilih Kategori" ||
+      kategori.value === "" ||
       jumlah === ""
   ){
    Swal.fire({
@@ -282,13 +292,7 @@ const transaksi = {
 
    sumberTransaksi: sumberTransaksi.value,
 
-   unitUsaha:
-
-   sumberTransaksi.value === "APBDes"
-
-   ? ""
-
-   : unitUsaha.value,
+   unitUsaha: unitUsaha.value,
 
    kategori: kategori.value,
 
@@ -304,16 +308,16 @@ const transaksi = {
 
 if(indexEdit == -1){
 
-   dataPemasukan.push(transaksi);
+   dataPengeluaran.push(transaksi);
 
 }else{
 
-   dataPemasukan[indexEdit] =
+   dataPengeluaran[indexEdit] =
    transaksi;
 
    localStorage.setItem(
-      "dataPemasukan",
-      JSON.stringify(dataPemasukan)
+      "dataPengeluaran",
+      JSON.stringify(dataPengeluaran)
    );
 
    Swal.fire({
@@ -339,15 +343,15 @@ if(indexEdit == -1){
 
 localStorage.setItem(
 
-   "dataPemasukan",
+   "dataPengeluaran",
 
-   JSON.stringify(dataPemasukan)
+   JSON.stringify(dataPengeluaran)
 
 );
 Swal.fire({
    icon: "success",
    title: "Berhasil!",
-   text: "Data pemasukan berhasil ditambahkan.",
+   text: "Data pengeluaran berhasil ditambahkan.",
    timer: 2000,
    showConfirmButton: false
 }).then(() => {
@@ -379,14 +383,14 @@ return;
            )
        ){
 
-           dataPemasukan.splice(
+         dataPengeluaran.splice(
                index,
                1
            );
 
            localStorage.setItem(
-               "dataPemasukan",
-               JSON.stringify(dataPemasukan)
+               "dataPengeluaran",
+               JSON.stringify(dataPengeluaran)
            );
 
            Swal.fire({
@@ -423,7 +427,7 @@ document.addEventListener("click", function(e){
        e.target.dataset.index;
 
        const data =
-       dataPemasukan[index];
+       dataPengeluaran[index];
 
        // Simpan index yang sedang diedit
        indexEdit = index;
@@ -445,17 +449,7 @@ document.addEventListener("click", function(e){
        keterangan.value =
        data.keterangan;
 
-       if(
-         data.sumberTransaksi === "APBDes"
-      ){
-      
-         unitUsaha.disabled = true;
-      
-      }else{
-      
-         unitUsaha.disabled = false;
-      
-      }
+       unitUsaha.disabled = false;
       
       updateKategori();
 
@@ -481,18 +475,8 @@ sumberTransaksi.addEventListener(
    "change",
    function(){
 
-      if(
-         this.value === "APBDes"
-      ){
-
-         unitUsaha.disabled = true;
-
-      }else{
-
-         unitUsaha.disabled = false;
-
-      }
       updateKategori();
+
 });
 
 
@@ -511,12 +495,12 @@ function updateKategori(){
    ){
 
       daftarKategori =
-      kategoriPemasukan.APBDes;
+      kategoriPengeluaran.APBDes;
 
    }else{
 
       daftarKategori =
-      kategoriPemasukan[
+      kategoriPengeluaran[
          unitUsaha.value
       ] || [];
 
