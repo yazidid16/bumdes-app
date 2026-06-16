@@ -127,6 +127,13 @@ const kategoriPengeluaran = {
 const kategori =
 document.getElementById("kategori");
 
+/* =====================================
+   KUNCI FORM SAAT PERTAMA DIBUKA
+===================================== */
+
+unitUsaha.disabled = true;
+kategori.disabled = true;
+
 // Input Nominal pengeluaran
 const nominal =
 document.getElementById("nominal");
@@ -241,8 +248,30 @@ btnSimpan.addEventListener("click", function () {
     const sumber =
     sumberTransaksi.value;
 
+    if(
+      sumberTransaksi.selectedIndex === 0
+   ){
+      Swal.fire({
+         icon: "warning",
+         title: "Oops...",
+         text: "Pilih Sumber Transaksi terlebih dahulu!"
+      });
+      return;
+   }
+
     const unit =
     unitUsaha.value;
+
+    if(
+      unitUsaha.selectedIndex === 0
+   ){
+      Swal.fire({
+         icon: "warning",
+         title: "Oops...",
+         text: "Pilih Unit Usaha terlebih dahulu!"
+      });
+      return;
+   }
 
     const jumlah =
     nominal.value.replace(/\./g, "");
@@ -474,6 +503,9 @@ Swal.fire({
 sumberTransaksi.addEventListener(
    "change",
    function(){
+
+      unitUsaha.disabled = false;
+      kategori.disabled = false;
 
       updateKategori();
 
