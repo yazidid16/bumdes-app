@@ -1,556 +1,305 @@
-/* =====================================
-   TEMPAT NYIMPEN DATA SEMENTARA
-   SELAMA HALAMAN MASIH DIBUKA
-===================================== */
-
-// Total seluruh pengeluaran
-let totalPengeluaran = 0;
-
-// Jumlah transaksi pengeluaran
-let jumlahTransaksi = 0;
-
-// Semua data pengeluaran
-let dataPengeluaran = [];
-
-// Menyimpan index data yang sedang diedit
-let indexEdit = -1;
-
-/* =====================================
-   AMBIL DATA DARI LOCAL STORAGE
-===================================== */
-
-const dataTersimpan =
-localStorage.getItem("dataPengeluaran");
-
-if (dataTersimpan) {
-
-    dataPengeluaran =
-    JSON.parse(dataTersimpan);
-
-}
-
-/* =====================================
-   AMBIL SEMUA ELEMEN HTML
-   AGAR BISA DIGUNAKAN DI JAVASCRIPT
-===================================== */
-
-// Tombol Simpan Transaksi
-const btnSimpan =
-document.getElementById("btnSimpan");
-
-// Otomatis Tanggal Hari ini
-const tanggalHariIni =
-document.getElementById("tanggalHariIni");
-
-/* =====================================
-   SIAPKAN HALAMAN SAAT PERTAMA DIBUKA
-===================================== */
-
-const hariIni = new Date();
-
-const opsiTanggal = {
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-};
-
-tanggalHariIni.textContent =
-hariIni.toLocaleDateString("id-ID", opsiTanggal);
-
-// Input Tanggal Transaksi
-const tanggalTransaksi =
-document.getElementById("tanggalTransaksi");
-/* =====================================
-   SET TANGGAL INPUT OTOMATIS
-===================================== */
-tanggalTransaksi.value =
-hariIni.toISOString().split("T")[0];
-
-// Dropdown Unit Usaha
-const unitUsaha =
-document.getElementById("unitUsaha");
-
-// Dropdown Sumber Transaksi
-const sumberTransaksi =
-document.getElementById("sumberTransaksi");
-
-/* =====================================
-   DAFTAR KATEGORI pengeluaran
-   AGAR MUDAH DITAMBAH KE DEPANNYA
-===================================== */
-
-const kategoriPengeluaran = {
-
-   APBDes: [
-      "Modal Usaha",
-      "Pengembangan Usaha",
-      "Operasional",
-      "Pembelian Aset",
-      "Lainnya"
-   ],
-
-   "Klinik Kesehatan": [
-      "Obat",
-      "ATK",
-      "Gaji",
-      "Listrik",
-      "Peralatan",
-      "Lainnya"
-   ],
-
-   "Rasio Kopi": [
-      "Biji Kopi",
-      "Susu",
-      "Gula",
-      "Cup",
-      "Gas",
-      "Lainnya"
-   ],
-
-   "Pariwisata & Camping": [
-      "Perawatan Area",
-      "Peralatan Camping",
-      "Promosi",
-      "Lainnya"
-   ],
-
-   "Internet": [
-      "Perangkat",
-      "Maintenance",
-      "Listrik",
-      "Lainnya"
-   ]
-
-};
-
-// Dropdown Kategori pengeluaran
-const kategori =
-document.getElementById("kategori");
-
-/* =====================================
-   KUNCI FORM SAAT PERTAMA DIBUKA
-===================================== */
-
-unitUsaha.disabled = true;
-kategori.disabled = true;
-
-// Input Nominal pengeluaran
-const nominal =
-document.getElementById("nominal");
-
-/* =====================================
-   FORMAT RUPIAH OTOMATIS
-   Saat user mengetik nominal
-===================================== */
-nominal.addEventListener("input", function(){
-
-   let angka =
-   this.value.replace(/\D/g, "");
-
-   this.value =
-   Number(angka).toLocaleString("id-ID");
-
-});
-
-// Input Keterangan
-const keterangan =
-document.getElementById("keterangan");
-
-// Body tabel riwayat pengeluaran
-const tablePengeluaran =
-document.getElementById("tablePengeluaran");
-
-/* =====================================
-   TAMPILKAN DATA DARI LOCAL STORAGE KE TABLE
-===================================== */
-dataPengeluaran.forEach(function(transaksi, index){
-   
-   const row = `
-   <tr>
-       <td>${transaksi.tanggal}</td>
-       <td>${transaksi.unitUsaha || "-"}</td>
-       <td>${transaksi.kategori}</td>
-       <td>
-           Rp ${Number(transaksi.nominal)
-           .toLocaleString("id-ID")}
-       </td>
-       <td>
-          <button
-class="btn btn-warning btn-sm btn-edit"
-data-index="${index}">
-    Edit
-</button>
-
-          <button class="btn btn-danger btn-sm btn-hapus" data-index="${index}">Hapus
-          </button>
-
-       </td>
-   </tr>
-   `;
-
-   tablePengeluaran.innerHTML += row;
-
-});
-
-
-/* =====================================
-   HITUNG DAN UPDATE CARD DASHBOARD
-   AGAR TOTAL SELALU SESUAI DATA TERBARU
-===================================== */
-
-const cardPengeluaranHariIni=
-document.getElementById("cardPengeluaranHariIni");
-
-const cardTotalPengeluaranBulan =
-document.getElementById("cardTotalPengeluaranBulan");
-
-const cardJumlahTransaksi =
-document.getElementById("cardJumlahTransaksi");
-
-dataPengeluaran.forEach(function(transaksi){
-
-   totalPengeluaran +=
-   Number(transaksi.nominal);
-
-});
-
-jumlahTransaksi =
-dataPengeluaran.length;
-
-cardPengeluaranHariIni.textContent =
-"Rp " +
-totalPengeluaran.toLocaleString("id-ID");
-
-cardTotalPengeluaranBulan.textContent =
-"Rp " +
-totalPengeluaran.toLocaleString("id-ID");
-
-cardJumlahTransaksi.textContent =
-jumlahTransaksi;
-
-/* =====================================
-   EVENT TOMBOL SIMPAN
-   Dijalankan saat user menekan tombol
-   "Simpan Transaksi"
-===================================== */
-
-btnSimpan.addEventListener("click", function () {
-
-    /* =====================================
-       AMBIL DATA DARI FORM
-       Mengambil seluruh input yang
-       diisi oleh user
-    ===================================== */
-
-    const tanggal =
-    tanggalTransaksi.value;
-
-    const sumber =
-    sumberTransaksi.value;
-
-    if(
-      sumberTransaksi.selectedIndex === 0
-   ){
-      Swal.fire({
-         icon: "warning",
-         title: "Oops...",
-         text: "Pilih Sumber Transaksi terlebih dahulu!"
-      });
-      return;
-   }
-
-    const unit =
-    unitUsaha.value;
-
-    if(
-      unitUsaha.selectedIndex === 0
-   ){
-      Swal.fire({
-         icon: "warning",
-         title: "Oops...",
-         text: "Pilih Unit Usaha terlebih dahulu!"
-      });
-      return;
-   }
-
-    const jumlah =
-    nominal.value.replace(/\./g, "");
-
-
-    /* =====================================
-       VALIDASI FORM
-       Mencegah data kosong tersimpan
-    ===================================== */
-
-    if (
-      tanggal === "" ||
-      sumber === "" ||
-      kategori.value === "" ||
-      jumlah === ""
-  ){
-   Swal.fire({
-      icon: "warning",
-      title: "Oops...",
-      text: "Semua field wajib diisi!"
-   });
-   return;
-  }
-
-  if(
-   sumber === "Unit Usaha" &&
-   unit === ""
-){
-   Swal.fire({
-      icon: "warning",
-      title: "Oops...",
-      text: "Pilih Unit Usaha terlebih dahulu!"
-   });
-   return;
-}
-
-/* =====================================
-   BUNGKUS DATA FORM
-   MENJADI OBJECT TRANSAKSI
-===================================== */
-
-const transaksi = {
-
-   id: Date.now(),
-
-   tanggal: tanggalTransaksi.value,
-
-   sumberTransaksi: sumberTransaksi.value,
-
-   unitUsaha: unitUsaha.value,
-
-   kategori: kategori.value,
-
-   nominal: nominal.value.replace(/\./g, ""),
-
-   keterangan: keterangan.value
-
-};
-
-/* =====================================
-  MASUKKAN KE ARRAY
-===================================== */
-
-if(indexEdit == -1){
-
-   dataPengeluaran.push(transaksi);
-
-}else{
-
-   dataPengeluaran[indexEdit] =
-   transaksi;
-
-   localStorage.setItem(
-      "dataPengeluaran",
-      JSON.stringify(dataPengeluaran)
-   );
-
-   Swal.fire({
-      icon: "success",
-      title: "Berhasil!",
-      text: "Perubahan data berhasil disimpan.",
-      timer: 2000,
-      showConfirmButton: false
-   }).then(() => {
-   
-      location.reload();
-   
-   });
-   
-   return;
-
-}
-
-/* =====================================
-   SIMPAN DATA KE LOCAL STORAGE
-   AGAR TIDAK HILANG SAAT REFRESH
-===================================== */
-
-localStorage.setItem(
-
-   "dataPengeluaran",
-
-   JSON.stringify(dataPengeluaran)
-
-);
-Swal.fire({
-   icon: "success",
-   title: "Berhasil!",
-   text: "Data pengeluaran berhasil ditambahkan.",
-   timer: 2000,
-   showConfirmButton: false
-}).then(() => {
-
-   location.reload();
-
-});
-
-return;
-
-});
-
-
-    /* =====================================
-      TOMBOL HAPUS TRANSAKSI
-   ===================================== */
-   document.addEventListener("click", function(e){
-
-   if(
-       e.target.classList.contains("btn-hapus")
-   ){
-
-       const index =
-       e.target.dataset.index;
-
-       if(
-           confirm(
-               "Yakin mau hapus data ini?"
-           )
-       ){
-
-         dataPengeluaran.splice(
-               index,
-               1
-           );
-
-           localStorage.setItem(
-               "dataPengeluaran",
-               JSON.stringify(dataPengeluaran)
-           );
-
-           Swal.fire({
-   icon: "success",
-   title: "Berhasil!",
-   text: "Data berhasil dihapus.",
-   timer: 2000,
-   showConfirmButton: false
-}).then(() => {
-
-   location.reload();
-
-});
-
-return;
-       }
-
-   }
-
-});
-
-/* =====================================
-   TOMBOL EDIT TRANSAKSI
-===================================== */
-
-document.addEventListener("click", function(e){
-
-   
-   if(
-       e.target.classList.contains("btn-edit")
-   ){
-
-       const index =
-       e.target.dataset.index;
-
-       const data =
-       dataPengeluaran[index];
-
-       // Simpan index yang sedang diedit
-       indexEdit = index;
-       
-       // Masukkan data ke form
-       tanggalTransaksi.value =
-       data.tanggal;
-
-       sumberTransaksi.value =
-       data.sumberTransaksi;
-       
-       unitUsaha.value =
-       data.unitUsaha;
-
-       nominal.value =
-       Number(data.nominal)
-       .toLocaleString("id-ID");
-
-       keterangan.value =
-       data.keterangan;
-
-       unitUsaha.disabled = false;
-      
-      updateKategori();
-
-kategori.value =
-data.kategori;
-
-Swal.fire({
-   icon: "info",
-   title: "Mode Edit Aktif",
-   text: "Silakan ubah data lalu klik Simpan."
-});
-   }
-
-});
-
-
-/* =====================================
-   GANTI KATEGORI OTOMATIS
-   SAAT SUMBER TRANSAKSI BERUBAH
-===================================== */
-
-sumberTransaksi.addEventListener(
-   "change",
-   function(){
-
-      unitUsaha.disabled = false;
-      kategori.disabled = false;
-
-      updateKategori();
-
-});
-
-
-/* =====================================
-   PERBARUI DAFTAR KATEGORI
-   SESUAI PILIHAN SUMBER TRANSAKSI
-===================================== */
-function updateKategori(){
-
-   kategori.innerHTML = "";
-
-   let daftarKategori = [];
-
-   if(
-      sumberTransaksi.value === "APBDes"
-   ){
-
-      daftarKategori =
-      kategoriPengeluaran.APBDes;
-
-   }else{
-
-      daftarKategori =
-      kategoriPengeluaran[
-         unitUsaha.value
-      ] || [];
-
-   }
-
-   daftarKategori.forEach(function(item){
-
-      kategori.innerHTML += `
-         <option value="${item}">
-            ${item}
-         </option>
-      `;
-
-   });
-
-}
-
-unitUsaha.addEventListener(
-   "change",
-   updateKategori
-);
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Pengeluaran</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+</head>
+
+    <body class="theme-admin">
+        <div class="wrapper">
+        
+        <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="logo">
+          <h4>BUMDES</h4>
+        </div>
+        <div class="user-box">Administrator</div>
+
+        <div class="sidebar-menu">
+          <a href="dashboard-admin.html" class="nav-link">
+            <i class="bi bi-grid"></i>
+            <span>Dashboard</span>
+          </a>
+          <div class="menu-title">
+            <span>Unit Usaha</span>
+          </div>
+          <a href="#" class="nav-link">
+            <i class="bi bi-clipboard-data"></i>
+            <span>APBDes</span>
+        </a>
+          <a href="#" class="nav-link">
+            <i class="bi bi-hospital"></i>
+            <span>Klinik</span>
+          </a>
+          <a href="#" class="nav-link">
+            <i class="bi bi-router"></i>
+            <span>Internet</span>
+          </a>
+          <a href="#" class="nav-link">
+            <i class="bi bi-cup-hot"></i>
+            <span>Rasio Kopi</span>
+          </a>
+          <a href="#" class="nav-link">
+            <i class="bi bi-tree"></i>
+            <span>Pariwisata</span>
+          </a>
+
+          <div class="menu-title">
+            <span>Transaksi</span>
+          </div>
+          <a href="pemasukan.html" class="nav-link">
+            <i class="bi bi-cash-stack"></i>
+            <span>Pemasukan</span>
+          </a>
+          <a href="pengeluaran.html" class="nav-link active">
+            <i class="bi bi-cash-stack"></i>
+            <span>Pengeluaran</span>
+          </a>
+          
+          <div class="menu-title">
+            <span>Laporan</span>
+          </div>
+          <a href="#" class="nav-link">
+            <i class="bi bi-filetype-pdf"></i>
+            <span>Export PDF</span>
+          </a>
+          <a href="#" class="nav-link">
+            <i class="bi bi-file-earmark-spreadsheet"></i>
+            <span>Export Excel</span>
+          </a>
+        </div>
+      </aside>
+
+        
+        <!-- MAIN -->
+        <main class="main-content">
+        
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <div>
+                        <h3 class="mb-0">Pengeluaran</h3>
+                        <small id="tanggalHariIni" > 31 Mei 2026</small>
+                    </div>
+                </div>
+                
+                <div class="topbar-right">
+                    <!-- Icon Notifikasi -->
+                    <button class="icon-btn">
+                        <i class="bi bi-bell"></i>
+                    </button>
+            
+                    <!-- Icon Chat -->
+                    <button class="icon-btn">
+                        <i class="bi bi-chat-dots"></i>
+                    </button>
+                    
+                    <!-- User Profile -->
+                    <div class="user-profile">
+                        <div class="avatar">A</div>
+                        <span>Administrator</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CONTENT CARD -->
+            <div class="content-wrapper">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="modern-card income-card">
+                            <div class="card-header-custom">
+                                <div>
+                                    <span>Pengeluaran Hari Ini</span>
+                                    <h3 id="cardPengeluaranHariIni" class="card-value">Rp 0</h3>
+                                </div>
+                
+                                <div class="card-icon expense-icon">
+                                    <i class="bi bi-wallet2"></i>
+                                </div>                
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-md-4">
+                        <div class="modern-card">
+                            <div class="card-header-custom">
+                    
+                                <div>
+                                    <span>Total Bulan Ini</span>
+                                    <h3 id="cardTotalPengeluaranBulan"class="card-value">Rp 0</h3>
+                                </div>
+                    
+                                <div class="card-icon expense-icon">
+                                    <i class="bi bi-calendar-month"></i>
+                                </div>
+                    
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="modern-card">
+                            <div class="card-header-custom">
+                                <div>
+                                    <span>Jumlah Transaksi</span>
+                                    <h3 id="cardJumlahTransaksi" class="card-value">0</h3>
+                                </div>
+    
+                                <div class="card-icon expense-icon">
+                                    <i class="bi bi-journal-text"></i>
+                                </div>
+                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FORM TAMBAH Pengeluaran -->
+          <div class="dashboard-box">
+            <h4 class="mb-4">Tambah Pengeluaran</h4>
+            <div class="row">
+              
+              <!-- FORM TANGGAL -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label"> Tanggal Transaksi </label>
+                <input id="tanggalTransaksi" type="date" class="form-control" />
+              </div>
+              
+            <!-- FORM SUMBER TRANSAKSI -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label">
+                  Sumber Transaksi
+              </label>
+
+              <select
+                  id="sumberTransaksi"
+                  class="form-select">
+
+                  <option selected disabled>
+                      Pilih Sumber Transaksi
+                  </option>
+
+                  <option value="Unit Usaha">
+                      Unit Usaha
+                  </option>
+
+                  <option value="APBDes">
+                      APBDes
+                  </option>
+
+              </select>
+            </div>
+
+              <!-- FORM UNIT USAHA -->
+              <div id="groupUnitUsaha" class="col-md-6 mb-3">
+                <label class="form-label"> Unit Usaha </label>
+                <select id="unitUsaha" class="form-select">
+                  <option selected disabled>Pilih Unit Usaha</option>
+                  <option>Klinik Kesehatan</option>
+                  <option>Rasio Kopi</option>
+                  <option>Pariwisata & Camping</option>
+                  <option>Internet</option>
+                </select>
+              </div>
+
+              <!-- FORM KATEGORI -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label"> Kategori Pengeluaran </label>
+                <select id="kategori" class="form-select">
+                  <option selected disabled>Pilih Kategori</option>
+                </select>
+              </div>
+
+              <!-- FORM NOMINAL -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label"> Nominal </label>
+
+                <div class="input-group">
+                  <span class="input-group-text"> Rp </span>
+
+                  <input
+                    id="nominal"
+                    type="text"
+                    class="form-control text-right"
+                    placeholder="Masukan Nominal"/>
+                </div>
+              </div>
+
+              <!-- FORM KETERANGAN -->
+              <div class="col-12 mb-3">
+                <label class="form-label"> Keterangan (Opsional) </label>
+                <textarea
+                  id="keterangan"
+                  class="form-control"
+                  rows="4"
+                  placeholder="Masukkan keterangan transaksi"
+                ></textarea>
+              </div>
+
+              <!-- FORM UPLOAD FILE -->
+              <div class="col-12 mb-4">
+                <label class="form-label"> Upload Bukti (Opsional) </label>
+
+                <input type="file" class="form-control" />
+              </div>
+
+              <!-- BUTTON SIMPAN -->
+              <div class="col-12">
+                <button id="btnSimpan" class="btn btn-success px-4">
+                  <i class="bi bi-check-circle"></i>
+                  Simpan Transaksi
+                </button>
+              </div>
+              
+                        
+                        <!-- TABLE RIWAYAT -->
+                        <div class="dashboard-box mt-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="mb-0">Riwayat Pengeluaran</h4>
+                            
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Cari transaksi..."
+                                    style="max-width:250px;"
+                                    />
+                            </div>
+                        
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th>Tanggal</th>
+                                      <th>Unit Usaha</th>
+                                      <th>Kategori</th>
+                                      <th>Nominal</th>
+                                      <th>Aksi</th>
+                                    </tr>
+                                  </thead>
+              
+                                  <tbody id="tablePengeluaran"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- content-wrapper -->
+                        </main> <!-- main-content -->
+        <!-- Connection Ke JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="assets/js/sidebar.js"></script>
+        <script src="assets/js/pengeluaran.js"></script>
+                        </div> <!-- wrapper -->
+        </body>
+    </html>
