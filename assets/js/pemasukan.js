@@ -63,8 +63,21 @@ document.getElementById("tanggalTransaksi");
 /* =====================================
    SET TANGGAL INPUT OTOMATIS
 ===================================== */
+const tahun =
+hariIni.getFullYear();
+
+const bulan =
+String(
+   hariIni.getMonth() + 1
+).padStart(2, "0");
+
+const tanggal =
+String(
+   hariIni.getDate()
+).padStart(2, "0");
+
 tanggalTransaksi.value =
-hariIni.toISOString().split("T")[0];
+`${tahun}-${bulan}-${tanggal}`;
 
 // Dropdown Unit Usaha
 const unitUsaha =
@@ -90,7 +103,6 @@ const kategoriPemasukan = {
    "Klinik Kesehatan": [
       "Pemeriksaan Umum",
       "Konsultasi Kesehatan",
-      "Penjualan Obat",
       "Lainnya"
    ],
 
@@ -103,6 +115,7 @@ const kategoriPemasukan = {
    "Pariwisata & Camping": [
       "Tiket Masuk Curug",
       "Sewa Tenda",
+      "Sewa Pelampung",
       "Lainnya"
    ],
 
@@ -197,10 +210,36 @@ document.getElementById("cardTotalPemasukanBulan");
 const cardJumlahTransaksi =
 document.getElementById("cardJumlahTransaksi");
 
+let totalHariIni = 0;
+let totalBulanIni = 0;
+
 dataPemasukan.forEach(function(transaksi){
 
-   totalPemasukan +=
+   const nominal =
    Number(transaksi.nominal);
+
+   const tanggal =
+   new Date(transaksi.tanggal);
+
+   if(
+      tanggal.toDateString()
+      ===
+      hariIni.toDateString()
+   ){
+      totalHariIni += nominal;
+   }
+
+   if(
+      tanggal.getMonth()
+      ===
+      hariIni.getMonth()
+      &&
+      tanggal.getFullYear()
+      ===
+      hariIni.getFullYear()
+   ){
+      totalBulanIni += nominal;
+   }
 
 });
 
@@ -209,14 +248,124 @@ dataPemasukan.length;
 
 cardPemasukanHariIni.textContent =
 "Rp " +
-totalPemasukan.toLocaleString("id-ID");
+totalHariIni.toLocaleString("id-ID");
 
 cardTotalPemasukanBulan.textContent =
 "Rp " +
-totalPemasukan.toLocaleString("id-ID");
+totalBulanIni.toLocaleString("id-ID");
 
 cardJumlahTransaksi.textContent =
 jumlahTransaksi;
+
+/* =====================================
+   HELPER SIMPAN STORAGE
+===================================== */
+
+function simpanKeStorage(
+   key,
+   transaksi
+){
+
+   let data =
+   JSON.parse(
+      localStorage.getItem(key)
+   ) || [];
+
+   data.push(transaksi);
+
+   localStorage.setItem(
+      key,
+      JSON.stringify(data)
+   );
+
+}
+function resetStorageUnitUsaha(){
+
+   localStorage.removeItem(
+      "dataPemasukanAPBDes"
+   );
+
+   localStorage.removeItem(
+      "dataPemasukanKlinik"
+   );
+
+   localStorage.removeItem(
+      "dataPemasukanRasioKopi"
+   );
+
+   localStorage.removeItem(
+      "dataPemasukanPariwisata"
+   );
+
+   localStorage.removeItem(
+      "dataPemasukanInternet"
+   );
+
+}
+function sinkronDashboardUnitUsaha(){
+
+   resetStorageUnitUsaha();
+
+   dataPemasukan.forEach(function(transaksi){
+
+      if(
+         transaksi.sumberTransaksi
+         ===
+         "APBDes"
+      ){
+         simpanKeStorage(
+            "dataPemasukanAPBDes",
+            transaksi
+         );
+      }
+
+      if(
+         transaksi.unitUsaha
+         ===
+         "Klinik Kesehatan"
+      ){
+         simpanKeStorage(
+            "dataPemasukanKlinik",
+            transaksi
+         );
+      }
+
+      if(
+         transaksi.unitUsaha
+         ===
+         "Rasio Kopi"
+      ){
+         simpanKeStorage(
+            "dataPemasukanRasioKopi",
+            transaksi
+         );
+      }
+
+      if(
+         transaksi.unitUsaha
+         ===
+         "Pariwisata & Camping"
+      ){
+         simpanKeStorage(
+            "dataPemasukanPariwisata",
+            transaksi
+         );
+      }
+
+      if(
+         transaksi.unitUsaha
+         ===
+         "Internet"
+      ){
+         simpanKeStorage(
+            "dataPemasukanInternet",
+            transaksi
+         );
+      }
+
+   });
+
+}
 
 /* =====================================
    EVENT TOMBOL SIMPAN
@@ -276,7 +425,10 @@ btnSimpan.addEventListener("click", function () {
 
   if(
    sumber === "Unit Usaha" &&
-   unit === ""
+   (
+      unit === "" ||
+      unit === "Pilih Unit Usaha"
+   )
 ){
    Swal.fire({
       icon: "warning",
@@ -322,6 +474,65 @@ const transaksi = {
 if(indexEdit == -1){
 
    dataPemasukan.push(transaksi);
+   
+/* =====================================
+   SIMPAN KE DASHBOARD UNIT USAHA
+===================================== */
+
+if(
+   transaksi.sumberTransaksi
+   ===
+   "APBDes"
+){
+   simpanKeStorage(
+      "dataPemasukanAPBDes",
+      transaksi
+   );
+}
+
+if(
+   transaksi.unitUsaha
+   ===
+   "Klinik Kesehatan"
+){
+   simpanKeStorage(
+      "dataPemasukanKlinik",
+      transaksi
+   );
+}
+
+if(
+   transaksi.unitUsaha
+   ===
+   "Rasio Kopi"
+){
+   simpanKeStorage(
+      "dataPemasukanRasioKopi",
+      transaksi
+   );
+}
+
+if(
+   transaksi.unitUsaha
+   ===
+   "Pariwisata & Camping"
+){
+   simpanKeStorage(
+      "dataPemasukanPariwisata",
+      transaksi
+   );
+}
+
+if(
+   transaksi.unitUsaha
+   ===
+   "Internet"
+){
+   simpanKeStorage(
+      "dataPemasukanInternet",
+      transaksi
+   );
+}
 
 }else{
 
@@ -332,7 +543,7 @@ if(indexEdit == -1){
       "dataPemasukan",
       JSON.stringify(dataPemasukan)
    );
-
+   sinkronDashboardUnitUsaha();
    Swal.fire({
       icon: "success",
       title: "Berhasil!",
@@ -340,15 +551,14 @@ if(indexEdit == -1){
       timer: 2000,
       showConfirmButton: false
    }).then(() => {
-   
+
       location.reload();
-   
+
    });
-   
+
    return;
 
 }
-
 /* =====================================
    SIMPAN DATA KE LOCAL STORAGE
    AGAR TIDAK HILANG SAAT REFRESH
@@ -396,15 +606,17 @@ return;
            )
        ){
 
-           dataPemasukan.splice(
-               index,
-               1
-           );
-
-           localStorage.setItem(
-               "dataPemasukan",
-               JSON.stringify(dataPemasukan)
-           );
+         dataPemasukan.splice(
+            index,
+            1
+         );
+         
+         localStorage.setItem(
+            "dataPemasukan",
+            JSON.stringify(dataPemasukan)
+         );
+         
+         sinkronDashboardUnitUsaha();
 
            Swal.fire({
    icon: "success",
