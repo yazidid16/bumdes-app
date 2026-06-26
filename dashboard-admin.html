@@ -32,33 +32,33 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         
             <div class="sidebar-menu">
         
-                <a href="#" class="nav-link active">
+                <a href="dashboard-admin.html" class="nav-link active">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
                 <div class="menu-title">
                     <span>Unit Usaha</span>
                 </div>
-                <a href="#" class="nav-link">
+                <a href="dashboard-apbds.html" class="nav-link">
                     <i class="bi bi-clipboard-data"></i>
                     <span>APBDes</span>
                 </a>
-                <a href="#" class="nav-link">
+                <a href="dashboard-klinik.html" class="nav-link">
                     <i class="bi bi-hospital"></i>
                     <span>Klinik</span>
                 </a>
         
-                <a href="#" class="nav-link">
+                <a href="dashboard-internet.html" class="nav-link">
                     <i class="bi bi-wifi"></i>
                     <span>Internet</span>
                 </a>
         
-                <a href="#" class="nav-link">
+                <a href="dashboard-rasiokopi.html" class="nav-link">
                     <i class="bi bi-cup-hot"></i>
                     <span>Rasio Kopi</span>
                 </a>
         
-                <a href="#" class="nav-link">
+                <a href="dashboard-pariwisata.html" class="nav-link">
                     <i class="bi bi-tree"></i>
                     <span>Pariwisata</span>
                 </a>
@@ -103,7 +103,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             
                     <div>
                         <h3 class="mb-0">Dashboard</h3>
-                        <small>31 Mei 2026</small>
+                        <small id="tanggalHariIni">31 Mei 2026</small>
                     </div>
             
                 </div>
@@ -141,13 +141,13 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 <div class="row g-3">
 
     <div class="col-md-3">
-        <div class="modern-card">
+        <div id="cardPemasukanHariIni" class="modern-card">
             <div class="card-header-custom">
                 <div>
                     <span>Pemasukan Hari Ini</span>
-                    <h3 class="card-value">
+                    <h3 id="pemasukanHariIni" class="card-value">
                         Rp 0
-                    </h3>
+                    </h3 >
                 </div>
                 <div class="card-icon income-icon">
                     <i class="bi bi-calendar-day"></i>
@@ -157,11 +157,11 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     </div>
 
     <div class="col-md-3">
-        <div class="modern-card">
+        <div  id="cardPemasukanBulanIni"  class="modern-card">
             <div class="card-header-custom">
                 <div>
                     <span>Pemasukan Bulan Ini</span>
-                    <h3 class="card-value">
+                    <h3 id="pemasukanBulanIni" class="card-value">
                         Rp 0
                     </h3>
                 </div>
@@ -173,11 +173,11 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     </div>
 
     <div class="col-md-3">
-        <div class="modern-card">
+        <div id="cardPemasukanTahunIni" class="modern-card">
             <div class="card-header-custom">
                 <div>
                     <span>Pemasukan Tahun Ini</span>
-                    <h3 class="card-value">
+                    <h3 id="pemasukanTahunIni" class="card-value">
                         Rp 0
                     </h3>
                 </div>
@@ -189,11 +189,11 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     </div>
 
     <div class="col-md-3">
-        <div class="modern-card">
+        <div id="cardTotalPemasukan" class="modern-card">
             <div class="card-header-custom">
                 <div>
                     <span>Total Pemasukan</span>
-                    <h3 class="card-value">
+                    <h3 id="totalPemasukan" class="card-value">
                         Rp 0
                     </h3>
                 </div>
@@ -211,11 +211,11 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 <div class="row g-3 mt-1">
 
     <div class="col-md-3">
-        <div class="modern-card">
+        <div id="cardPengeluaranHariIni" class="modern-card">
             <div class="card-header-custom">
                 <div>
                     <span>Pengeluaran Hari Ini</span>
-                    <h3 class="card-value">
+                    <h3 id="pengeluaranHariIni" class="card-value">
                         Rp 0
                     </h3>
                 </div>
@@ -227,11 +227,11 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     </div>
 
     <div class="col-md-3">
-        <div class="modern-card">
+        <div id="cardPengeluaranBulanIni" class="modern-card">
             <div class="card-header-custom">
                 <div>
                     <span>Pengeluaran Bulan Ini</span>
-                    <h3 class="card-value">
+                    <h3 id="pengeluaranBulanIni" class="card-value">
                         Rp 0
                     </h3>
                 </div>
@@ -243,11 +243,11 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     </div>
 
     <div class="col-md-3">
-        <div class="modern-card">
+        <div id="cardPengeluaranTahunIni" class="modern-card">
             <div class="card-header-custom">
                 <div>
                     <span>Pengeluaran Tahun Ini</span>
-                    <h3 class="card-value">
+                    <h3 id="pengeluaranTahunIni" class="card-value">
                         Rp 0
                     </h3>
                 </div>
@@ -259,11 +259,11 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     </div>
 
     <div class="col-md-3">
-        <div class="modern-card">
+        <div id="cardTotalPengeluaran" class="modern-card">
             <div class="card-header-custom">
                 <div>
                     <span>Total Pengeluaran</span>
-                    <h3 class="card-value">
+                    <h3 id="totalPengeluaran" class="card-value">
                         Rp 0
                     </h3>
                 </div>
@@ -275,7 +275,25 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     </div>
 
 </div>
-        
+<div class="row g-3 mt-1">
+    <div class="col-md-12">
+        <div class="modern-card">
+            <div class="card-header-custom">
+                <div>
+                    <span>Saldo BUMDes</span>
+                    <h3
+                        id="saldoBUMDes"
+                        class="card-value">
+                        Rp 0
+                    </h3>
+                </div>
+                <div class="card-icon income-icon">
+                    <i class="bi bi-safe2"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                 <!-- GRAFIK -->
                 <div class="row mt-4">
         
@@ -319,7 +337,41 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                         <script src="assets/js/sidebar.js"></script>
                         
                         </div> <!-- wrapper -->
-            
-        
-</body>
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                        <script src="assets/js/dashboard-admin.js"></script>
+                        <div class="modal fade"
+     id="detailModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-xl">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5
+                    id="detailModalTitle"
+                    class="modal-title">
+                    Detail Transaksi
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div
+                id="detailModalBody"
+                class="modal-body">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 </html>
