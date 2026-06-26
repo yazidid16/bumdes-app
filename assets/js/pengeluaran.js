@@ -60,11 +60,25 @@ hariIni.toLocaleDateString("id-ID", opsiTanggal);
 // Input Tanggal Transaksi
 const tanggalTransaksi =
 document.getElementById("tanggalTransaksi");
+
 /* =====================================
    SET TANGGAL INPUT OTOMATIS
 ===================================== */
+const tahun =
+hariIni.getFullYear();
+
+const bulan =
+String(
+   hariIni.getMonth() + 1
+).padStart(2, "0");
+
+const tanggal =
+String(
+   hariIni.getDate()
+).padStart(2, "0");
+
 tanggalTransaksi.value =
-hariIni.toISOString().split("T")[0];
+`${tahun}-${bulan}-${tanggal}`;
 
 // Dropdown Unit Usaha
 const unitUsaha =
@@ -207,10 +221,36 @@ document.getElementById("cardTotalPengeluaranBulan");
 const cardJumlahTransaksi =
 document.getElementById("cardJumlahTransaksi");
 
+let totalHariIni = 0;
+let totalBulanIni = 0;
+
 dataPengeluaran.forEach(function(transaksi){
 
-   totalPengeluaran +=
+   const nominal =
    Number(transaksi.nominal);
+
+   const tanggal =
+   new Date(transaksi.tanggal);
+
+   if(
+      tanggal.toDateString()
+      ===
+      hariIni.toDateString()
+   ){
+      totalHariIni += nominal;
+   }
+
+   if(
+      tanggal.getMonth()
+      ===
+      hariIni.getMonth()
+      &&
+      tanggal.getFullYear()
+      ===
+      hariIni.getFullYear()
+   ){
+      totalBulanIni += nominal;
+   }
 
 });
 
@@ -219,14 +259,126 @@ dataPengeluaran.length;
 
 cardPengeluaranHariIni.textContent =
 "Rp " +
-totalPengeluaran.toLocaleString("id-ID");
+totalHariIni.toLocaleString("id-ID");
 
 cardTotalPengeluaranBulan.textContent =
 "Rp " +
-totalPengeluaran.toLocaleString("id-ID");
+totalBulanIni.toLocaleString("id-ID");
 
 cardJumlahTransaksi.textContent =
 jumlahTransaksi;
+
+/* =====================================
+   HELPER SIMPAN STORAGE
+===================================== */
+
+function simpanKeStorage(
+   key,
+   transaksi
+){
+
+   let data =
+   JSON.parse(
+      localStorage.getItem(key)
+   ) || [];
+
+   data.push(transaksi);
+
+   localStorage.setItem(
+      key,
+      JSON.stringify(data)
+   );
+
+}
+
+function resetStorageUnitUsaha(){
+
+   localStorage.removeItem(
+      "dataPengeluaranAPBDes"
+   );
+
+   localStorage.removeItem(
+      "dataPengeluaranKlinik"
+   );
+
+   localStorage.removeItem(
+      "dataPengeluaranRasioKopi"
+   );
+
+   localStorage.removeItem(
+      "dataPengeluaranPariwisata"
+   );
+
+   localStorage.removeItem(
+      "dataPengeluaranInternet"
+   );
+
+}
+
+function sinkronDashboardUnitUsaha(){
+
+   resetStorageUnitUsaha();
+
+   dataPengeluaran.forEach(function(transaksi){
+
+      if(
+         transaksi.sumberTransaksi
+         ===
+         "APBDes"
+      ){
+         simpanKeStorage(
+            "dataPengeluaranAPBDes",
+            transaksi
+         );
+      }
+
+      if(
+         transaksi.unitUsaha
+         ===
+         "Klinik Kesehatan"
+      ){
+         simpanKeStorage(
+            "dataPengeluaranKlinik",
+            transaksi
+         );
+      }
+
+      if(
+         transaksi.unitUsaha
+         ===
+         "Rasio Kopi"
+      ){
+         simpanKeStorage(
+            "dataPengeluaranRasioKopi",
+            transaksi
+         );
+      }
+
+      if(
+         transaksi.unitUsaha
+         ===
+         "Pariwisata & Camping"
+      ){
+         simpanKeStorage(
+            "dataPengeluaranPariwisata",
+            transaksi
+         );
+      }
+
+      if(
+         transaksi.unitUsaha
+         ===
+         "Internet"
+      ){
+         simpanKeStorage(
+            "dataPengeluaranInternet",
+            transaksi
+         );
+      }
+
+   });
+
+}
 
 /* =====================================
    EVENT TOMBOL SIMPAN
@@ -339,6 +491,8 @@ if(indexEdit == -1){
 
    dataPengeluaran.push(transaksi);
 
+   sinkronDashboardUnitUsaha();
+
 }else{
 
    dataPengeluaran[indexEdit] =
@@ -348,7 +502,7 @@ if(indexEdit == -1){
       "dataPengeluaran",
       JSON.stringify(dataPengeluaran)
    );
-
+   sinkronDashboardUnitUsaha();
    Swal.fire({
       icon: "success",
       title: "Berhasil!",
@@ -371,12 +525,11 @@ if(indexEdit == -1){
 ===================================== */
 
 localStorage.setItem(
-
    "dataPengeluaran",
-
    JSON.stringify(dataPengeluaran)
-
 );
+
+sinkronDashboardUnitUsaha();
 Swal.fire({
    icon: "success",
    title: "Berhasil!",
@@ -421,7 +574,7 @@ return;
                "dataPengeluaran",
                JSON.stringify(dataPengeluaran)
            );
-
+           sinkronDashboardUnitUsaha();
            Swal.fire({
    icon: "success",
    title: "Berhasil!",
