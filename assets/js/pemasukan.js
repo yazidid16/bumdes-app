@@ -500,7 +500,7 @@ satuan:
    &&
    kategori.value === "Penjualan Kopi"
 )
-? "Kg"
+? "Gram"
 : "",
 
    keterangan: keterangan.value
@@ -739,7 +739,7 @@ document.addEventListener("click", function(e){
          data.quantity || "";
       
          satuan.value =
-         data.satuan || "Kg";
+         data.satuan || "Gram";
       
       }else{
       
@@ -846,7 +846,7 @@ function updateQuantityField(){
    const quantityConfig = {
 
       "Penjualan Kopi": {
-         satuan: "Kg"
+         satuan: "Gram"
       }
 
    };
