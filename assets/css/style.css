@@ -406,9 +406,13 @@ h3,h4,h5{
 
     .topbar{
         padding:15px;
+        flex-wrap:wrap;
+        gap:10px;
     }
 
     .topbar-right{
+        width:100%;
+        justify-content:flex-end;
         gap:8px;
     }
 
@@ -422,8 +426,8 @@ h3,h4,h5{
     }
 
     .card-icon{
-        width:48px;
-        height:48px;
+        width:60px;
+        height:60px;
         font-size:18px;
     }
 
@@ -444,4 +448,13 @@ h3,h4,h5{
         height:300px;
     }
 
+    .sidebar .logo{
+        font-size:0;
+    }
+
+    .sidebar .logo::after{
+        content:"B";
+        font-size:28px;
+        font-weight:700;
+    }
 }
