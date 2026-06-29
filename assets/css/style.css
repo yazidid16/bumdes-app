@@ -225,9 +225,18 @@ body{
 }
 
 .card-value{
-    font-size:34px;
+    font-size: clamp(
+        1.5rem,
+        1.8vw,
+        2.8rem
+    );
+
     font-weight:700;
     line-height:1.2;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 .card-icon{
@@ -244,6 +253,7 @@ body{
 .dashboard-box{
     background:white;
     border:1px solid var(--border);
+    height:100%;
 
     border-radius:16px;
     padding:20px;
@@ -257,8 +267,8 @@ body{
 =================================== */
 
 .placeholder-box{
-    min-height:350px;
-
+    min-height:300px;
+    padding: 20px;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -335,4 +345,42 @@ h3,h4,h5{
 .sidebar.collapsed + .main-content{
     margin-left:80px;
     width:calc(100% - 80px);
+}
+
+.modern-card{
+    cursor:pointer;
+}
+
+.chart-container{
+    height:420px;
+    padding:20px;
+}
+
+.placeholder-box{
+    height:420px;
+
+}
+
+.fc .fc-button-primary{
+    background:#0891b2 !important;
+    border:none !important;
+}
+
+.fc .fc-button-primary:hover{
+    background:#0e7490 !important;
+}
+
+.fc-toolbar-title{
+    font-size:24px !important;
+    font-weight:700 !important;
+}
+
+
+/* =====================================
+   FULLCALENDAR SELECTED DAY
+===================================== */
+
+.fc-day-selected{
+    background:#dbeafe !important;
+    border:2px solid #2563eb !important;
 }
