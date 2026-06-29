@@ -243,6 +243,51 @@
                 </div>
               </div>
 
+              <div
+              id="groupQuantity"
+              class="col-md-3 mb-3"
+              style="display:none;"
+           >
+              <label class="form-label">
+                 Quantity
+              </label>
+           
+              <input
+                 type="number"
+                 id="quantity"
+                 class="form-control"
+                 min="1"
+                 value="1"
+              >
+           </div>
+           
+         <!-- FUTURE FEATURE SATUAN-->
+<div
+id="groupSatuan"
+class="col-md-3 mb-3"
+style="display:none;"
+>
+<label class="form-label">
+  Satuan
+</label>
+
+<select
+  id="satuan"
+  class="form-select"
+  disabled
+>
+<option value="Pcs">Pcs</option>
+<option value="Unit">Unit</option>
+<option value="Kg">Kg</option>
+<option value="Gram">Gram</option>
+<option value="Liter">Liter</option>
+<option value="Meter">Meter</option>
+<option value="Hari">Hari</option>
+<option value="Orang">Orang</option>
+</select>
+</div>
+
+
               <!-- FORM KETERANGAN -->
               <div class="col-12 mb-3">
                 <label class="form-label"> Keterangan (Opsional) </label>
@@ -290,6 +335,7 @@
                                       <th>Tanggal</th>
                                       <th>Unit Usaha</th>
                                       <th>Kategori</th>
+                                      <th>Qty</th>
                                       <th>Nominal</th>
                                       <th>Aksi</th>
                                     </tr>

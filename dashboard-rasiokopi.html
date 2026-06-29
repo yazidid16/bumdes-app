@@ -1,312 +1,419 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Pengeluaran</title>
+<title>Dashboard Rasio Kopi</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"rel="stylesheet"/>
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css">
+
+
 </head>
 
     <body class="theme-admin">
+
         <div class="wrapper">
         
         <!-- SIDEBAR -->
         <aside class="sidebar">
         
-          <div class="logo">
-              <h4>BUMDES</h4>
-          </div>
-      
-          <div class="user-box">
-              Administrator
-          </div>
-      
-          <div class="sidebar-menu">
-      
-              <a href="dashboard-admin.html" class="nav-link">
-                  <i class="bi bi-grid"></i>
-                  <span>Dashboard</span>
-              </a>
-              <div class="menu-title">
-                  <span>Unit Usaha</span>
-              </div>
-              <a href="dashboard-apbds.html" class="nav-link">
-                  <i class="bi bi-clipboard-data"></i>
-                  <span>APBDes</span>
-              </a>
-              <a href="dashboard-klinik.html" class="nav-link">
-                  <i class="bi bi-hospital"></i>
-                  <span>Klinik</span>
-              </a>
-      
-              <a href="dashboard-internet.html" class="nav-link">
-                  <i class="bi bi-wifi"></i>
-                  <span>Internet</span>
-              </a>
-      
-              <a href="dashboard-rasiokopi.html" class="nav-link">
-                  <i class="bi bi-cup-hot"></i>
-                  <span>Rasio Kopi</span>
-              </a>
-      
-              <a href="dashboard-pariwisata.html" class="nav-link">
-                  <i class="bi bi-tree"></i>
-                  <span>Pariwisata</span>
-              </a>
-              <div class="menu-title">
-                  <span>Transaksi</span>
-              </div>
-              <a href="pemasukan.html" class="nav-link">
-                  <i class="bi bi-cash-stack"></i>
-                  <span>Pemasukan</span>
-              </a>
-              <a href="pengeluaran.html" class="nav-link active">
-                  <i class="bi bi-cash-stack"></i>
-                  <span>Pengeluaran</span>
-              </a>
-              <div class="menu-title">
-                  <span>Laporan</span>
-              </div>
-              <a href="#" class="nav-link">
-                  <i class="bi bi-file-earmark-bar-graph"></i>
-                  <span>Export PDF</span>
-              </a>
-              <a href="#" class="nav-link">
-                  <i class="bi bi-file-earmark-bar-graph"></i>
-                  <span>Export Excel</span>
-              </a>
-      
-          </div>
-      
-      </aside>
-
+            <div class="logo">
+                <h4>BUMDES</h4>
+            </div>
+        
+            <div class="user-box">
+                Administrator
+            </div>
+        
+            <div class="sidebar-menu">
+        
+                <a href="dashboard-admin.html" class="nav-link">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+                <div class="menu-title">
+                    <span>Unit Usaha</span>
+                </div>
+                <a href="dashboard-apbds.html" class="nav-link">
+                    <i class="bi bi-clipboard-data"></i>
+                    <span>APBDes</span>
+                </a>
+                <a href="dashboard-klinik.html" class="nav-link">
+                    <i class="bi bi-hospital"></i>
+                    <span>Klinik</span>
+                </a>
+        
+                <a href="dashboard-internet.html" class="nav-link ">
+                    <i class="bi bi-wifi"></i>
+                    <span>Internet</span>
+                </a>
+        
+                <a href="dashboard-rasiokopi.html" class="nav-link active">
+                    <i class="bi bi-cup-hot"></i>
+                    <span>Rasio Kopi</span>
+                </a>
+        
+                <a href="dashboard-pariwisata.html" class="nav-link">
+                    <i class="bi bi-tree"></i>
+                    <span>Pariwisata</span>
+                </a>
+                <div class="menu-title">
+                    <span>Transaksi</span>
+                </div>
+                <a href="pemasukan.html" class="nav-link">
+                    <i class="bi bi-cash-stack"></i>
+                    <span>Pemasukan</span>
+                </a>
+                <a href="pengeluaran.html" class="nav-link">
+                    <i class="bi bi-cash-stack"></i>
+                    <span>Pengeluaran</span>
+                </a>
+                <div class="menu-title">
+                    <span>Laporan</span>
+                </div>
+                <a href="#" class="nav-link">
+                    <i class="bi bi-file-earmark-bar-graph"></i>
+                    <span>Export PDF</span>
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="bi bi-file-earmark-bar-graph"></i>
+                    <span>Export Excel</span>
+                </a>
+        
+            </div>
+        
+        </aside>
+        
         <!-- MAIN -->
         <main class="main-content">
         
             <!-- TOPBAR -->
             <div class="topbar">
+
                 <div class="topbar-left">
+            
                     <button class="menu-toggle">
                         <i class="bi bi-list"></i>
                     </button>
+            
                     <div>
-                        <h3 class="mb-0">Pengeluaran</h3>
-                        <small id="tanggalHariIni" > 31 Mei 2026</small>
+                        <h3 class="mb-0">Dashboard Rasio Kopi</h3>
+                        <small id="tanggalHariIni">31 Mei 2026</small>
                     </div>
+            
                 </div>
-                
+            
                 <div class="topbar-right">
-                    <!-- Icon Notifikasi -->
+            
                     <button class="icon-btn">
                         <i class="bi bi-bell"></i>
                     </button>
             
-                    <!-- Icon Chat -->
                     <button class="icon-btn">
                         <i class="bi bi-chat-dots"></i>
                     </button>
-                    
-                    <!-- User Profile -->
+            
                     <div class="user-profile">
-                        <div class="avatar">A</div>
+            
+                        <div class="avatar">
+                            A
+                        </div>
+            
                         <span>Administrator</span>
+            
                         <i class="bi bi-chevron-down"></i>
+            
                     </div>
+            
                 </div>
+            
             </div>
             
-            <!-- CONTENT CARD -->
+            <!-- CONTENT -->
             <div class="content-wrapper">
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <div class="modern-card income-card">
-                            <div class="card-header-custom">
-                                <div>
-                                    <span>Pengeluaran Hari Ini</span>
-                                    <h3 id="cardPengeluaranHariIni" class="card-value">Rp 0</h3>
-                                </div>
-                
-                                <div class="card-icon expense-icon">
-                                    <i class="bi bi-wallet2"></i>
-                                </div>                
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="col-md-4">
-                        <div class="modern-card">
-                            <div class="card-header-custom">
-                    
-                                <div>
-                                    <span>Total Bulan Ini</span>
-                                    <h3 id="cardTotalPengeluaranBulan"class="card-value">Rp 0</h3>
-                                </div>
-                    
-                                <div class="card-icon expense-icon">
-                                    <i class="bi bi-calendar-month"></i>
-                                </div>
-                    
-                            </div>
-                        </div>
-                    </div>
+                                        
+            <!-- CARD PEMASUKAN (ROW 1) -->
+<div class="row g-3">
 
-                    <div class="col-md-4">
-                        <div class="modern-card">
-                            <div class="card-header-custom">
-                                <div>
-                                    <span>Jumlah Transaksi</span>
-                                    <h3 id="cardJumlahTransaksi" class="card-value">0</h3>
-                                </div>
-    
-                                <div class="card-icon expense-icon">
-                                    <i class="bi bi-journal-text"></i>
-                                </div>
-                
-                            </div>
-                        </div>
-                    </div>
+    <div class="col-md-3">
+        <div id="cardPemasukanHariIni" class="modern-card">
+            <div class="card-header-custom">
+                <div>
+                    <span>Pemasukan Hari Ini</span>
+                    <h3 id="pemasukanHariIni" class="card-value">
+                        Rp 0
+                    </h3 >
                 </div>
-                
-                <!-- FORM TAMBAH Pengeluaran -->
-          <div class="dashboard-box">
-            <h4 class="mb-4">Tambah Pengeluaran</h4>
-            <div class="row">
-              
-              <!-- FORM TANGGAL -->
-              <div class="col-md-6 mb-3">
-                <label class="form-label"> Tanggal Transaksi </label>
-                <input id="tanggalTransaksi" type="date" class="form-control" />
-              </div>
-              
-            <!-- FORM SUMBER TRANSAKSI -->
-            <div class="col-md-6 mb-3">
-              <label class="form-label">
-                  Sumber Transaksi
-              </label>
+                <div class="card-icon income-icon">
+                    <i class="bi bi-calendar-day"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
-              <select
-                  id="sumberTransaksi"
-                  class="form-select">
+    <div class="col-md-3">
+        <div  id="cardPemasukanBulanIni"  class="modern-card">
+            <div class="card-header-custom">
+                <div>
+                    <span>Pemasukan Bulan Ini</span>
+                    <h3 id="pemasukanBulanIni" class="card-value">
+                        Rp 0
+                    </h3>
+                </div>
+                <div class="card-icon income-icon">
+                    <i class="bi bi-calendar-month"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                  <option selected disabled>
-                      Pilih Sumber Transaksi
-                  </option>
+    <div class="col-md-3">
+        <div id="cardPemasukanTahunIni" class="modern-card">
+            <div class="card-header-custom">
+                <div>
+                    <span>Pemasukan Tahun Ini</span>
+                    <h3 id="pemasukanTahunIni" class="card-value">
+                        Rp 0
+                    </h3>
+                </div>
+                <div class="card-icon income-icon">
+                    <i class="bi bi-calendar3"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                  <option value="Unit Usaha">
-                      Unit Usaha
-                  </option>
+    <div class="col-md-3">
+        <div id="cardTotalPemasukan" class="modern-card">
+            <div class="card-header-custom">
+                <div>
+                    <span>Total Pemasukan</span>
+                    <h3 id="totalPemasukan" class="card-value">
+                        Rp 0
+                    </h3>
+                </div>
+                <div class="card-icon income-icon">
+                    <i class="bi bi-box-arrow-in-up"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                  <option value="APBDes">
-                      APBDes
-                  </option>
+</div>
+        
+<!-- CARD PENGELUARAN (ROW 2) -->
 
-              </select>
+<div class="row g-3 mt-1">
+
+    <div class="col-md-3">
+        <div id="cardPengeluaranHariIni" class="modern-card">
+            <div class="card-header-custom">
+                <div>
+                    <span>Pengeluaran Hari Ini</span>
+                    <h3 id="pengeluaranHariIni" class="card-value">
+                        Rp 0
+                    </h3>
+                </div>
+                <div class="card-icon expense-icon">
+                    <i class="bi bi-calendar-day"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div id="cardPengeluaranBulanIni" class="modern-card">
+            <div class="card-header-custom">
+                <div>
+                    <span>Pengeluaran Bulan Ini</span>
+                    <h3 id="pengeluaranBulanIni" class="card-value">
+                        Rp 0
+                    </h3>
+                </div>
+                <div class="card-icon expense-icon">
+                    <i class="bi bi-calendar-month"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div id="cardPengeluaranTahunIni" class="modern-card">
+            <div class="card-header-custom">
+                <div>
+                    <span>Pengeluaran Tahun Ini</span>
+                    <h3 id="pengeluaranTahunIni" class="card-value">
+                        Rp 0
+                    </h3>
+                </div>
+                <div class="card-icon expense-icon">
+                    <i class="bi bi-calendar3"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div id="cardTotalPengeluaran" class="modern-card">
+            <div class="card-header-custom">
+                <div>
+                    <span>Total Pengeluaran</span>
+                    <h3 id="totalPengeluaran" class="card-value">
+                        Rp 0
+                    </h3>
+                </div>
+                <div class="card-icon expense-icon">
+                    <i class="bi bi-box-arrow-down"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-3 mt-1">
+
+    <div class="col-md-12">
+
+        <div class="modern-card">
+
+            <div class="card-header-custom">
+
+                <div>
+
+                    <span>Saldo Rasio Kopi</span>
+
+                    <h3
+                        id="saldoDashboard"
+                        class="card-value">
+                        Rp 0
+                    </h3>
+
+                </div>
+
+                <div class="card-icon income-icon">
+
+                    <i class="bi-safe2"></i>
+
+                </div>
+
             </div>
 
-              <!-- FORM UNIT USAHA -->
-              <div id="groupUnitUsaha" class="col-md-6 mb-3">
-                <label class="form-label"> Unit Usaha </label>
-                <select id="unitUsaha" class="form-select">
-                  <option selected disabled>Pilih Unit Usaha</option>
-                  <option>Klinik Kesehatan</option>
-                  <option>Rasio Kopi</option>
-                  <option>Pariwisata & Camping</option>
-                  <option>Internet</option>
-                </select>
-              </div>
+        </div>
 
-              <!-- FORM KATEGORI -->
-              <div class="col-md-6 mb-3">
-                <label class="form-label"> Kategori Pengeluaran </label>
-                <select id="kategori" class="form-select">
-                  <option selected disabled>Pilih Kategori</option>
-                </select>
-              </div>
+    </div>
 
-              <!-- FORM NOMINAL -->
-              <div class="col-md-6 mb-3">
-                <label class="form-label"> Nominal </label>
-
-                <div class="input-group">
-                  <span class="input-group-text"> Rp </span>
-
-                  <input
-                    id="nominal"
-                    type="text"
-                    class="form-control text-right"
-                    placeholder="Masukan Nominal"/>
-                </div>
-              </div>
-
-              <!-- FORM KETERANGAN -->
-              <div class="col-12 mb-3">
-                <label class="form-label"> Keterangan (Opsional) </label>
-                <textarea
-                  id="keterangan"
-                  class="form-control"
-                  rows="4"
-                  placeholder="Masukkan keterangan transaksi"
-                ></textarea>
-              </div>
-
-              <!-- FORM UPLOAD FILE -->
-              <div class="col-12 mb-4">
-                <label class="form-label"> Upload Bukti (Opsional) </label>
-
-                <input type="file" class="form-control" />
-              </div>
-
-              <!-- BUTTON SIMPAN -->
-              <div class="col-12">
-                <button id="btnSimpan" class="btn btn-success px-4">
-                  <i class="bi bi-check-circle"></i>
-                  Simpan Transaksi
-                </button>
-              </div>
-              
-                        
-                        <!-- TABLE RIWAYAT -->
-                        <div class="dashboard-box mt-4">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="mb-0">Riwayat Pengeluaran</h4>
-                            
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Cari transaksi..."
-                                    style="max-width:250px;"
-                                    />
-                            </div>
-                        
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                  <thead>
-                                    <tr>
-                                      <th>Tanggal</th>
-                                      <th>Unit Usaha</th>
-                                      <th>Kategori</th>
-                                      <th>Nominal</th>
-                                      <th>Aksi</th>
-                                    </tr>
-                                  </thead>
-              
-                                  <tbody id="tablePengeluaran"></tbody>
-                                </table>
-                            </div>
+</div>
+                <!-- GRAFIK -->
+                <div class="row mt-4">
+        
+                    <div class="col-lg-8">
+        
+                        <div class="dashboard-box">
+        
+                            <h5>Grafik Pemasukan & Pengeluaran</h5>
+        
+                            <div class="placeholder-box chart-container">
+                         
+                            <canvas id="dashboardChart"></canvas>
+                         
+                         </div>
+        
                         </div>
+        
                     </div>
-                </div>
-            </div> <!-- content-wrapper -->
-                        </main> <!-- main-content -->
-        <!-- Connection Ke JS -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="assets/js/sidebar.js"></script>
-        <script src="assets/js/pengeluaran.js"></script>
-                        </div> <!-- wrapper -->
-        </body>
-    </html>
+        
+                    <div class="col-lg-4 d-flex">
+                        <div class="dashboard-box w-100">
+                        
+                            <h5 class="mb-3">
+                                Kalender Transaksi
+                            </h5>
+                            
+                            <div id="calendar"></div>
+                            
+                            <hr>
+                            
+                            <div id="ringkasanTanggal"
+                                 class="d-flex flex-wrap gap-3 small">
+                            
+                                <span>
+                                    📅 28 Juni 2026
+                                </span>
+                            
+                                <span class="text-success fw-bold">
+                                    Pemasukan: Rp 0
+                                </span>
+                            
+                                <span class="text-danger fw-bold">
+                                    Pengeluaran: Rp 0
+                                </span>
+                            
+                                <span class="fw-bold">
+                                    Saldo: Rp 0
+                                </span>
+                            
+                            </div>
+                        
+                        </div>
+                        
+                        </div> <!-- col-lg-4 -->
+                        
+                        </div> <!-- row -->
+                        
+                        </div> <!-- content-wrapper -->
+                        
+                        </main> <!-- main-content -->       
+                    </div>
+                    <div class="modal fade"
+                         id="detailModal"
+                         tabindex="-1">
+                    
+                        <div class="modal-dialog modal-xl">
+                    
+                            <div class="modal-content">
+                    
+                                <div class="modal-header">
+                    
+                                    <h5 id="detailModalTitle"
+                                        class="modal-title">
+                                    </h5>
+                    
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal">
+                                    </button>
+                    
+                                </div>
+                    
+                                <div id="detailModalBody"
+                                     class="modal-body">
+                                </div>
+                    
+                            </div>
+                    
+                        </div>
+                    
+                    </div>
+<!-- JS -->
+<script src="assets/js/sidebar.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+<script src="assets/js/helper.js"></script>
+<script src="assets/js/dashboard-rasiokopi.js"></script>
+</div>
+</body>
+</html>
