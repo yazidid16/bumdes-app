@@ -384,3 +384,64 @@ h3,h4,h5{
     background:#dbeafe !important;
     border:2px solid #2563eb !important;
 }
+
+/* =====================================
+   MOBILE PHONE
+===================================== */
+
+@media(max-width:768px){
+
+    .sidebar{
+        width:70px;
+    }
+
+    .main-content{
+        margin-left:70px;
+        width:calc(100% - 70px);
+    }
+
+    .content-wrapper{
+        padding:15px;
+    }
+
+    .topbar{
+        padding:15px;
+    }
+
+    .topbar-right{
+        gap:8px;
+    }
+
+    .user-profile span,
+    .user-profile small{
+        display:none;
+    }
+
+    .modern-card{
+        padding:16px;
+    }
+
+    .card-icon{
+        width:48px;
+        height:48px;
+        font-size:18px;
+    }
+
+    .card-value{
+        font-size:2rem;
+    }
+
+    .dashboard-box{
+        padding:15px;
+    }
+
+    .chart-container{
+        height:300px;
+        padding:10px;
+    }
+
+    .placeholder-box{
+        height:300px;
+    }
+
+}
