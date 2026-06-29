@@ -83,9 +83,23 @@ tanggalTransaksi.value =
 const unitUsaha =
 document.getElementById("unitUsaha");
 
+
 // Dropdown Sumber Transaksi
 const sumberTransaksi =
 document.getElementById("sumberTransaksi");
+
+const groupQuantity =
+document.getElementById("groupQuantity");
+
+const groupSatuan =
+document.getElementById("groupSatuan");
+
+const quantity =
+document.getElementById("quantity");
+
+const satuan =
+document.getElementById("satuan");
+
 
 /* =====================================
    DAFTAR KATEGORI PEMASUKAN
@@ -173,6 +187,14 @@ dataPemasukan.forEach(function(transaksi, index){
        <td>${transaksi.tanggal}</td>
        <td>${transaksi.unitUsaha || "-"}</td>
        <td>${transaksi.kategori}</td>
+
+       <td>
+   ${
+      transaksi.quantity
+? transaksi.quantity + " " + transaksi.satuan
+: "-"
+   }
+</td>
        <td>
            Rp ${Number(transaksi.nominal)
            .toLocaleString("id-ID")}
@@ -463,6 +485,24 @@ const transaksi = {
 
    nominal: nominal.value.replace(/\./g, ""),
 
+   quantity:
+(
+   unitUsaha.value === "Rasio Kopi"
+   &&
+   kategori.value === "Penjualan Kopi"
+)
+? quantity.value
+: "",
+
+satuan:
+(
+   unitUsaha.value === "Rasio Kopi"
+   &&
+   kategori.value === "Penjualan Kopi"
+)
+? "Kg"
+: "",
+
    keterangan: keterangan.value
 
 };
@@ -662,27 +702,52 @@ document.addEventListener("click", function(e){
        data.tanggal;
 
        sumberTransaksi.value =
-       data.sumberTransaksi;
-       
-       unitUsaha.value =
-       data.unitUsaha;
+      data.sumberTransaksi;
+
+      sumberTransaksi.disabled = true;
+
+      unitUsaha.value =
+      data.unitUsaha;
+
+      unitUsaha.disabled = true;
+
+      kategori.disabled = true;
 
        nominal.value =
        Number(data.nominal)
        .toLocaleString("id-ID");
 
+       quantity.value =
+       data.quantity || "";
+
        keterangan.value =
        data.keterangan;
 
        if(
-         data.sumberTransaksi === "APBDes"
+         data.unitUsaha === "Rasio Kopi"
+         &&
+         data.kategori === "Penjualan Kopi"
       ){
       
-         unitUsaha.disabled = true;
+         groupQuantity.style.display =
+         "block";
+      
+         groupSatuan.style.display =
+         "block";
+      
+         quantity.value =
+         data.quantity || "";
+      
+         satuan.value =
+         data.satuan || "Kg";
       
       }else{
       
-         unitUsaha.disabled = false;
+         groupQuantity.style.display =
+         "none";
+      
+         groupSatuan.style.display =
+         "none";
       
       }
       
@@ -764,10 +829,60 @@ function updateKategori(){
       `;
 
    });
-
+   updateQuantityField();
 }
 
 unitUsaha.addEventListener(
    "change",
-   updateKategori
+   function(){
+
+      updateKategori();
+
+   }
+);
+
+function updateQuantityField(){
+
+   const quantityConfig = {
+
+      "Penjualan Kopi": {
+         satuan: "Kg"
+      }
+
+   };
+
+   const config =
+   quantityConfig[
+      kategori.value
+   ];
+
+   if(config){
+
+      groupQuantity.style.display =
+      "block";
+
+      groupSatuan.style.display =
+      "block";
+
+      satuan.value =
+      config.satuan;
+
+   }else{
+
+      groupQuantity.style.display =
+      "none";
+
+      groupSatuan.style.display =
+      "none";
+
+      quantity.value = "";
+
+   }
+
+}
+
+
+kategori.addEventListener(
+   "change",
+   updateQuantityField
 );

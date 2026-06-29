@@ -84,6 +84,18 @@ tanggalTransaksi.value =
 const unitUsaha =
 document.getElementById("unitUsaha");
 
+const groupQuantity =
+document.getElementById("groupQuantity");
+
+const groupSatuan =
+document.getElementById("groupSatuan");
+
+const quantity =
+document.getElementById("quantity");
+
+const satuan =
+document.getElementById("satuan");
+
 // Dropdown Sumber Transaksi
 const sumberTransaksi =
 document.getElementById("sumberTransaksi");
@@ -183,11 +195,20 @@ dataPengeluaran.forEach(function(transaksi, index){
    <tr>
        <td>${transaksi.tanggal}</td>
        <td>${transaksi.unitUsaha || "-"}</td>
-       <td>${transaksi.kategori}</td>
-       <td>
-           Rp ${Number(transaksi.nominal)
-           .toLocaleString("id-ID")}
-       </td>
+<td>${transaksi.kategori}</td>
+
+<td>
+${
+   transaksi.quantity
+   ? transaksi.quantity + " " + transaksi.satuan
+   : "-"
+}
+</td>
+
+<td>
+Rp ${Number(transaksi.nominal)
+.toLocaleString("id-ID")}
+</td>
        <td>
           <button
 class="btn btn-warning btn-sm btn-edit"
@@ -478,9 +499,18 @@ const transaksi = {
    kategori: kategori.value,
 
    nominal: nominal.value.replace(/\./g, ""),
-
+   
+   quantity:
+   kategori.value === "Biji Kopi"
+   ? quantity.value
+   : "",
+   
+   satuan:
+   kategori.value === "Biji Kopi"
+   ? "Kg"
+   : "",
+   
    keterangan: keterangan.value
-
 };
 
 /* =====================================
@@ -619,24 +649,33 @@ document.addEventListener("click", function(e){
        data.tanggal;
 
        sumberTransaksi.value =
-       data.sumberTransaksi;
-       
-       unitUsaha.value =
-       data.unitUsaha;
+      data.sumberTransaksi;
+
+      sumberTransaksi.disabled = true;
+
+      unitUsaha.value =
+      data.unitUsaha;
+
+      unitUsaha.disabled = true;
+
+      kategori.disabled = true;
+      
 
        nominal.value =
        Number(data.nominal)
        .toLocaleString("id-ID");
 
+       quantity.value =
+       data.quantity || "";
+
        keterangan.value =
        data.keterangan;
 
-       unitUsaha.disabled = false;
-      
       updateKategori();
 
-kategori.value =
-data.kategori;
+      kategori.value =
+      data.kategori;
+      updateQuantityField();
 
 Swal.fire({
    icon: "info",
@@ -700,10 +739,59 @@ function updateKategori(){
       `;
 
    });
+   updateQuantityField();
+}
+
+function updateQuantityField(){
+
+   const quantityConfig = {
+
+      "Biji Kopi": {
+         satuan: "Kg"
+      }
+
+   };
+
+   const config =
+   quantityConfig[
+      kategori.value
+   ];
+
+   if(config){
+
+      groupQuantity.style.display =
+      "block";
+
+      groupSatuan.style.display =
+      "block";
+
+      satuan.value =
+      config.satuan;
+
+   }else{
+
+      groupQuantity.style.display =
+      "none";
+
+      groupSatuan.style.display =
+      "none";
+
+      quantity.value = "";
+
+   }
 
 }
 
+kategori.addEventListener(
+   "change",
+   updateQuantityField
+);
+
 unitUsaha.addEventListener(
    "change",
-   updateKategori
+   function(){
+
+      updateKategori();
+
+   }
 );

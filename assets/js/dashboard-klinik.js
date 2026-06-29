@@ -1,4 +1,46 @@
 /* =====================================
+   // Ganti LABEL_UNIT untuk dashboard lain
+===================================== */
+const LABEL_UNIT =
+"Klinik Kesehatan";
+
+
+/* =====================================
+   AMBIL DATA DARI HELPER
+===================================== */
+
+const dataPemasukan =
+ambilDataPemasukan();
+
+const dataPengeluaran =
+ambilDataPengeluaran();
+
+
+
+
+/* =====================================
+   FILTER DATA APBDES SAJA
+===================================== */
+
+const dataPemasukanUnit =
+dataPemasukan.filter(function(item){
+
+    return (
+        item.unitUsaha === LABEL_UNIT
+    );
+
+});
+
+const dataPengeluaranUnit =
+dataPengeluaran.filter(function(item){
+
+    return (
+        item.unitUsaha === LABEL_UNIT
+    );
+
+});
+
+/* =====================================
    DASHBOARD ADMIN
 ===================================== */
 
@@ -21,16 +63,6 @@ hariIni.toLocaleDateString("id-ID", {
 /* =====================================
    AMBIL DATA LOCAL STORAGE
 ===================================== */
-
-const dataPemasukanKlinik =
-JSON.parse(
-   localStorage.getItem("dataPemasukanKlinik")
-) || [];
-
-const dataPengeluaranKlinik =
-JSON.parse(
-   localStorage.getItem("dataPengeluaranKlinik")
-) || [];
 
 /* =====================================
    AMBIL ELEMEN CARD
@@ -60,8 +92,11 @@ document.getElementById("pengeluaranTahunIni");
 const totalPengeluaran =
 document.getElementById("totalPengeluaran");
 
-const saldoKlinik =
-document.getElementById("saldoKlinik");
+const saldoElement =
+document.getElementById(
+    "saldoDashboard"
+);
+
 
 /* =====================================
    VARIABEL TOTAL
@@ -76,13 +111,12 @@ let totalKeluarHariIni = 0;
 let totalKeluarBulanIni = 0;
 let totalKeluarTahunIni = 0;
 let totalKeluarSemua = 0;
-let saldoAkhirKlinik = 0;
 
 /* =====================================
    HITUNG PEMASUKAN
 ===================================== */
 
-dataPemasukanKlinik.forEach(function(item){
+dataPemasukanUnit.forEach(function(item){
 
    const nominal =
    Number(item.nominal);
@@ -122,7 +156,7 @@ dataPemasukanKlinik.forEach(function(item){
    HITUNG PENGELUARAN
 ===================================== */
 
-dataPengeluaranKlinik.forEach(function(item){
+dataPengeluaranUnit.forEach(function(item){
 
    const nominal =
    Number(item.nominal);
@@ -155,9 +189,7 @@ dataPengeluaranKlinik.forEach(function(item){
    }
 
    totalKeluarSemua += nominal;
-   saldoAkhirKlinik =
-   totalMasukSemua -
-   totalKeluarSemua;
+
 });
 
 /* =====================================
@@ -165,52 +197,59 @@ dataPengeluaranKlinik.forEach(function(item){
 ===================================== */
 
 pemasukanHariIni.textContent =
-"Rp " +
-totalMasukHariIni.toLocaleString("id-ID");
+formatRupiah(totalMasukHariIni);
 
 pemasukanBulanIni.textContent =
-"Rp " +
-totalMasukBulanIni.toLocaleString("id-ID");
+formatRupiah(totalMasukBulanIni);
 
 pemasukanTahunIni.textContent =
-"Rp " +
-totalMasukTahunIni.toLocaleString("id-ID");
+formatRupiah(totalMasukTahunIni);
 
 totalPemasukan.textContent =
-"Rp " +
-totalMasukSemua.toLocaleString("id-ID");
+formatRupiah(totalMasukSemua);
 
 pengeluaranHariIni.textContent =
-"Rp " +
-totalKeluarHariIni.toLocaleString("id-ID");
+formatRupiah(totalKeluarHariIni);
+
 
 pengeluaranBulanIni.textContent =
-"Rp " +
-totalKeluarBulanIni.toLocaleString("id-ID");
+formatRupiah(totalKeluarBulanIni);
 
 pengeluaranTahunIni.textContent =
-"Rp " +
-totalKeluarTahunIni.toLocaleString("id-ID");
+formatRupiah(totalKeluarTahunIni);
 
 totalPengeluaran.textContent =
-"Rp " +
-totalKeluarSemua.toLocaleString("id-ID");
+formatRupiah(totalKeluarSemua);
 
-saldoKlinik.textContent =
-"Rp " +
-saldoAkhirKlinik.toLocaleString("id-ID");
+
+const sisaDana =
+totalMasukSemua -
+totalKeluarSemua;
+
+if(saldoElement){
+
+    saldoElement.textContent =
+    formatRupiah(sisaDana);
+
+}
+
+/* =====================================
+   TABLE TRANSAKSI DINAMIS
+===================================== */
 
 function buatTableTransaksi(data){
     let totalNominal = 0;
 
-    data.sort(function(a,b){
+    const dataUrut = [...data];
 
-        return (
-            new Date(b.tanggal)
-            -
-            new Date(a.tanggal)
-        );
-
+    dataUrut.sort(function(a,b){
+    
+       return (
+          new Date(b.tanggal)
+          -
+          new Date(a.tanggal)
+       );
+    
     });
 
     if(data.length === 0){
@@ -245,8 +284,7 @@ function buatTableTransaksi(data){
             <tbody>
     `;
 
-    data.forEach(function(item){
-
+    dataUrut.forEach(function(item){
         totalNominal += Number(item.nominal);
 
         html += `
@@ -258,14 +296,14 @@ function buatTableTransaksi(data){
 
             <td>
                 ${
-                    item.sumberTransaksi === "APBDes"
-                    ? '<span class="badge bg-primary">APBDes</span>'
+                    item.unitUsaha === "LABEL_UNIT"
+                    ? '<span class="badge bg-primary">LABEL_UNIT</span>'
                     : '<span class="badge bg-success">Unit Usaha</span>'
                 }
             </td>
 
             <td>
-                ${item.unitUsaha || "Klinik"}
+                ${item.unitUsaha || "LABEL_UNIT"}
             </td>
 
             <td>
@@ -273,8 +311,7 @@ function buatTableTransaksi(data){
             </td>
 
             <td class="fw-bold">
-                Rp ${Number(item.nominal)
-                .toLocaleString("id-ID")}
+            ${formatRupiah(item.nominal)}
             </td>
 
         </tr>
@@ -310,7 +347,7 @@ function buatTableTransaksi(data){
         </strong>
 
         <strong>
-            Rp ${totalNominal.toLocaleString("id-ID")}
+        ${formatRupiah(totalNominal)}
         </strong>
 
     </div>
@@ -319,6 +356,10 @@ function buatTableTransaksi(data){
     return html;
 
 }
+
+/* =====================================
+   EVENT CARD PEMASUKAN
+===================================== */
 
 const cardPemasukanHariIni =
 document.getElementById(
@@ -330,7 +371,7 @@ cardPemasukanHariIni.addEventListener(
     function(){
 
         const dataHariIni =
-dataPemasukanKlinik.filter(function(item){
+dataPemasukanUnit.filter(function(item){
 
     return (
         new Date(item.tanggal)
@@ -347,6 +388,10 @@ bukaModal(
 );
 
     });
+
+/* =====================================
+   MODAL DINAMIS
+===================================== */
 
     function bukaModal(judul, isi){
 
@@ -366,7 +411,7 @@ bukaModal(
     }
 
 /* =====================================
-   HELPER CARD CLICK
+      HELPER PASANG CARD CLICK
 ===================================== */
 
 function pasangCardClick(
@@ -393,7 +438,9 @@ function pasangCardClick(
     );
 
 }
-
+/* =====================================
+   CARD PEMASUKAN BULAN INI
+===================================== */
     document
 .getElementById(
     "cardPemasukanBulanIni"
@@ -403,7 +450,7 @@ function pasangCardClick(
     function(){
 
         const dataBulanIni =
-        dataPemasukanKlinik.filter(function(item){
+        dataPemasukanUnit.filter(function(item){
         
             const tanggal =
             new Date(item.tanggal);
@@ -424,6 +471,10 @@ function pasangCardClick(
         );
 
     });
+
+    /* =====================================
+   CARD PEMASUKAN TAHUN INI
+===================================== */
     document
 .getElementById(
     "cardPemasukanTahunIni"
@@ -433,7 +484,7 @@ function pasangCardClick(
     function(){
 
         const dataTahunIni =
-dataPemasukanKlinik.filter(function(item){
+dataPemasukanUnit.filter(function(item){
 
     const tanggal =
     new Date(item.tanggal);
@@ -456,9 +507,12 @@ bukaModal(
     pasangCardClick(
         "cardTotalPemasukan",
         "Total Pemasukan",
-        dataPemasukanKlinik
+        dataPemasukanUnit
     );
 
+/* =====================================
+   EVENT CARD PENGELUARAN
+===================================== */
 
     document
 .getElementById(
@@ -469,7 +523,7 @@ bukaModal(
     function(){
 
         const dataHariIni =
-dataPengeluaranKlinik.filter(function(item){
+dataPengeluaranUnit.filter(function(item){
 
     return (
         new Date(item.tanggal)
@@ -487,7 +541,9 @@ bukaModal(
 
     });
 
-
+/* =====================================
+   CARD PEGNELUARAN BULAN INI
+===================================== */
     document
     .getElementById(
         "cardPengeluaranBulanIni"
@@ -497,7 +553,7 @@ bukaModal(
         function(){
     
             const dataBulanIni =
-            dataPengeluaranKlinik.filter(function(item){
+            dataPengeluaranUnit.filter(function(item){
             
                 const tanggal =
                 new Date(item.tanggal);
@@ -520,7 +576,9 @@ bukaModal(
             );
     
         });
-
+/* =====================================
+   CARD PENGELUARAN TAHUN INI
+===================================== */
         document
     .getElementById(
         "cardPengeluaranTahunIni"
@@ -530,7 +588,7 @@ bukaModal(
         function(){
     
             const dataTahunIni =
-            dataPengeluaranKlinik.filter(function(item){
+            dataPengeluaranUnit.filter(function(item){
             
                 const tanggal =
                 new Date(item.tanggal);
@@ -554,5 +612,199 @@ bukaModal(
         pasangCardClick(
             "cardTotalPengeluaran",
             "Total Pengeluaran",
-            dataPengeluaranKlinik
+            dataPengeluaranUnit
         );
+
+        
+        /* =====================================
+        CHART KEUANGAN DASHBOARD
+        ===================================== */
+
+        const pemasukanBulanan =
+        hitungDataBulanan(
+        dataPemasukanUnit
+        );
+
+        const pengeluaranBulanan =
+        hitungDataBulanan(
+        dataPengeluaranUnit
+        );
+
+
+// Menunggu HTML:
+// <canvas id="chartKeuangan"></canvas>
+
+const chartKeuangan =
+document.getElementById(
+   "dashboardChart"
+);
+
+if(chartKeuangan){
+
+   new Chart(
+      chartKeuangan,
+      {
+         type:"bar",
+
+         data:{
+            labels:[
+               "Jan","Feb","Mar","Apr",
+               "Mei","Jun","Jul","Agu",
+               "Sep","Okt","Nov","Des"
+            ],
+         
+            datasets:[
+               {
+                  label:"Pemasukan",
+                  data:pemasukanBulanan
+               },
+               {
+                  label:"Pengeluaran",
+                  data:pengeluaranBulanan
+               }
+            ]
+         },
+
+         options:{
+            responsive:true,
+            maintainAspectRatio:false
+         }
+
+      }
+   );
+
+}
+
+
+/* ====================================
+   FULL CALENDAR DASHBOARD
+===================================== */
+
+// Menunggu HTML:
+// <div id="calendar"></div>
+// <div id="ringkasanTanggal"></div>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+ 
+       const calendarEl =
+       document.getElementById(
+          "calendar"
+       );
+ 
+       if(!calendarEl) return;
+ 
+       const calendar =
+       new FullCalendar.Calendar(
+          calendarEl,
+          {
+ 
+             initialView:
+             "dayGridMonth",
+ 
+             locale:"id",
+ 
+             height:420,
+ 
+             dateClick:function(info){
+ 
+                document
+                .querySelectorAll(
+                   ".fc-daygrid-day"
+                )
+                .forEach(function(el){
+ 
+                   el.classList.remove(
+                      "fc-day-selected"
+                   );
+ 
+                });
+ 
+                info.dayEl.classList.add(
+                   "fc-day-selected"
+                );
+ 
+                let masuk = 0;
+                let keluar = 0;
+ 
+                dataPemasukanUnit
+                .forEach(function(item){
+ 
+                   const tanggalItem =
+                   new Date(item.tanggal)
+                   .toISOString()
+                   .split("T")[0];
+ 
+                   if(
+                      tanggalItem
+                      ===
+                      info.dateStr
+                   ){
+                      masuk +=
+                      Number(item.nominal);
+                   }
+ 
+                });
+ 
+                dataPengeluaranUnit
+                .forEach(function(item){
+ 
+                   const tanggalItem =
+                   new Date(item.tanggal)
+                   .toISOString()
+                   .split("T")[0];
+ 
+                   if(
+                      tanggalItem
+                      ===
+                      info.dateStr
+                   ){
+                      keluar +=
+                      Number(item.nominal);
+                   }
+ 
+                });
+ 
+                const saldo =
+                masuk - keluar;
+ 
+                const ringkasan =
+                document.getElementById(
+                   "ringkasanTanggal"
+                );
+ 
+                if(ringkasan){
+ 
+                   ringkasan.innerHTML = `
+                      <span>
+                         📅 ${info.dateStr}
+                      </span>
+ 
+                      <span class="text-success fw-bold">
+                         Pemasukan:
+                         ${formatRupiah(masuk)}
+                      </span>
+ 
+                      <span class="text-danger fw-bold">
+                         Pengeluaran:
+                         ${formatRupiah(keluar)}
+                      </span>
+ 
+                      <span class="fw-bold">
+                         Saldo:
+                         ${formatRupiah(saldo)}
+                      </span>
+                   `;
+ 
+                }
+ 
+             }
+ 
+          }
+       );
+ 
+       calendar.render();
+ 
+    }
+ );
