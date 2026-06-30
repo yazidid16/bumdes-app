@@ -9,10 +9,10 @@ const LABEL_UNIT =
    AMBIL DATA DARI HELPER
 ===================================== */
 
-const dataPemasukan =
+const dataPemasukanUnit =
 ambilDataPemasukan();
 
-const dataPengeluaran =
+const dataPengeluaranUnit =
 ambilDataPengeluaran();
 
 
@@ -22,8 +22,8 @@ ambilDataPengeluaran();
    FILTER DATA APBDES SAJA
 ===================================== */
 
-const dataPemasukanUnit =
-dataPemasukan.filter(function(item){
+const dataPemasukanUnitUnit =
+dataPemasukanUnit.filter(function(item){
 
     return (
         item.sumberTransaksi === LABEL_UNIT
@@ -31,8 +31,8 @@ dataPemasukan.filter(function(item){
 
 });
 
-const dataPengeluaranUnit =
-dataPengeluaran.filter(function(item){
+const dataPengeluaranUnitUnit =
+dataPengeluaranUnit.filter(function(item){
 
     return (
         item.sumberTransaksi === LABEL_UNIT
@@ -113,7 +113,7 @@ let totalKeluarSemua = 0;
    HITUNG PEMASUKAN
 ===================================== */
 
-dataPemasukanUnit.forEach(function(item){
+dataPemasukanUnitUnit.forEach(function(item){
 
    const nominal =
    Number(item.nominal);
@@ -153,7 +153,7 @@ dataPemasukanUnit.forEach(function(item){
    HITUNG PENGELUARAN
 ===================================== */
 
-dataPengeluaranUnit.forEach(function(item){
+dataPengeluaranUnitUnit.forEach(function(item){
 
    const nominal =
    Number(item.nominal);
@@ -368,7 +368,7 @@ cardPemasukanHariIni.addEventListener(
     function(){
 
         const dataHariIni =
-dataPemasukanUnit.filter(function(item){
+dataPemasukanUnitUnit.filter(function(item){
 
     return (
         new Date(item.tanggal)
@@ -447,7 +447,7 @@ function pasangCardClick(
     function(){
 
         const dataBulanIni =
-        dataPemasukanUnit.filter(function(item){
+        dataPemasukanUnitUnit.filter(function(item){
         
             const tanggal =
             new Date(item.tanggal);
@@ -481,7 +481,7 @@ function pasangCardClick(
     function(){
 
         const dataTahunIni =
-dataPemasukanUnit.filter(function(item){
+dataPemasukanUnitUnit.filter(function(item){
 
     const tanggal =
     new Date(item.tanggal);
@@ -504,7 +504,7 @@ bukaModal(
     pasangCardClick(
         "cardTotalPemasukan",
         "Total Pemasukan",
-        dataPemasukanUnit
+        dataPemasukanUnitUnit
     );
 
 /* =====================================
@@ -520,7 +520,7 @@ bukaModal(
     function(){
 
         const dataHariIni =
-dataPengeluaranUnit.filter(function(item){
+dataPengeluaranUnitUnit.filter(function(item){
 
     return (
         new Date(item.tanggal)
@@ -550,7 +550,7 @@ bukaModal(
         function(){
     
             const dataBulanIni =
-            dataPengeluaranUnit.filter(function(item){
+            dataPengeluaranUnitUnit.filter(function(item){
             
                 const tanggal =
                 new Date(item.tanggal);
@@ -585,7 +585,7 @@ bukaModal(
         function(){
     
             const dataTahunIni =
-            dataPengeluaranUnit.filter(function(item){
+            dataPengeluaranUnitUnit.filter(function(item){
             
                 const tanggal =
                 new Date(item.tanggal);
@@ -609,7 +609,7 @@ bukaModal(
         pasangCardClick(
             "cardTotalPengeluaran",
             "Total Pengeluaran",
-            dataPengeluaranUnit
+            dataPengeluaranUnitUnit
         );
 
         
@@ -619,189 +619,146 @@ bukaModal(
 
         const pemasukanBulanan =
         hitungDataBulanan(
-        dataPemasukanUnit
+        dataPemasukanUnitUnit
         );
 
         const pengeluaranBulanan =
         hitungDataBulanan(
-        dataPengeluaranUnit
+        dataPengeluaranUnitUnit
         );
 
 
 // Menunggu HTML:
 // <canvas id="chartKeuangan"></canvas>
 
-const chartKeuangan =
-document.getElementById(
-   "dashboardChart"
-);
+const chartKeuangan = document.getElementById("dashboardChart");
 
 if(chartKeuangan){
-
-   new Chart(
-      chartKeuangan,
-      {
-         type:"bar",
-
-         data:{
-            labels:[
-               "Jan","Feb","Mar","Apr",
-               "Mei","Jun","Jul","Agu",
-               "Sep","Okt","Nov","Des"
-            ],
-         
-            datasets:[
-               {
-                  label:"Pemasukan",
-                  data:pemasukanBulanan
-               },
-               {
-                  label:"Pengeluaran",
-                  data:pengeluaranBulanan
+   new Chart(chartKeuangan, {
+      type: "bar",
+      data: {
+         labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+         datasets: [
+            {
+               label: "Pemasukan",
+               data: pemasukanBulanan, // Pake variabel data yang udah lu hitung
+               backgroundColor: "#10b981", // Hijau Emerald
+               borderRadius: 8
+            },
+            {
+               label: "Pengeluaran",
+               data: pengeluaranBulanan, // Pake variabel data yang udah lu hitung
+               backgroundColor: "#DC143C", // Abu-abu muda
+               borderRadius: 8
+            }
+         ]
+      },
+      options: {
+         responsive: true,
+         maintainAspectRatio: false,
+         scales: {
+            x: {
+               grid: { display: false } // Hilangkan garis vertikal biar bersih
+            },
+            y: {
+               beginAtZero: true,
+               grid: { 
+                  color: "#f1f5f9", // GARIS BORDER TIPIS (Grid horizontal)
+                  drawBorder: false 
                }
-            ]
-         },
-
-         options:{
-            responsive:true,
-            maintainAspectRatio:false
+            }
          }
-
       }
-   );
-
+   });
 }
 
 
 /* ====================================
-   FULL CALENDAR DASHBOARD
+   9. FULL CALENDAR DASHBOARD (MODERN)
 ===================================== */
 
-// Menunggu HTML:
-// <div id="calendar"></div>
-// <div id="ringkasanTanggal"></div>
+document.addEventListener('DOMContentLoaded', function () {
+    const calendarEl = document.getElementById('calendar');
+    if(!calendarEl) return;
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function(){
- 
-       const calendarEl =
-       document.getElementById(
-          "calendar"
-       );
- 
-       if(!calendarEl) return;
- 
-       const calendar =
-       new FullCalendar.Calendar(
-          calendarEl,
-          {
- 
-             initialView:
-             "dayGridMonth",
- 
-             locale:"id",
- 
-             height:420,
- 
-             dateClick:function(info){
- 
-                document
-                .querySelectorAll(
-                   ".fc-daygrid-day"
-                )
-                .forEach(function(el){
- 
-                   el.classList.remove(
-                      "fc-day-selected"
-                   );
- 
-                });
- 
-                info.dayEl.classList.add(
-                   "fc-day-selected"
-                );
- 
-                let masuk = 0;
-                let keluar = 0;
- 
-                dataPemasukanUnit
-                .forEach(function(item){
- 
-                   const tanggalItem =
-                   new Date(item.tanggal)
-                   .toISOString()
-                   .split("T")[0];
- 
-                   if(
-                      tanggalItem
-                      ===
-                      info.dateStr
-                   ){
-                      masuk +=
-                      Number(item.nominal);
-                   }
- 
-                });
- 
-                dataPengeluaranUnit
-                .forEach(function(item){
- 
-                   const tanggalItem =
-                   new Date(item.tanggal)
-                   .toISOString()
-                   .split("T")[0];
- 
-                   if(
-                      tanggalItem
-                      ===
-                      info.dateStr
-                   ){
-                      keluar +=
-                      Number(item.nominal);
-                   }
- 
-                });
- 
-                const saldo =
-                masuk - keluar;
- 
-                const ringkasan =
-                document.getElementById(
-                   "ringkasanTanggal"
-                );
- 
-                if(ringkasan){
- 
-                   ringkasan.innerHTML = `
-                      <span>
-                         📅 ${info.dateStr}
-                      </span>
- 
-                      <span class="text-success fw-bold">
-                         Pemasukan:
-                         ${formatRupiah(masuk)}
-                      </span>
- 
-                      <span class="text-danger fw-bold">
-                         Pengeluaran:
-                         ${formatRupiah(keluar)}
-                      </span>
- 
-                      <span class="fw-bold">
-                         Saldo:
-                         ${formatRupiah(saldo)}
-                      </span>
-                   `;
- 
-                }
- 
-             }
- 
-          }
-       );
- 
-       calendar.render();
- 
-    }
- );
+    // 1. Kumpulkan semua tanggal yang memiliki transaksi ke dalam Set (biar unik/gak duplikat)
+    const tanggalAdaTransaksi = new Set();
+    
+    dataPemasukanUnit.forEach(item => {
+        tanggalAdaTransaksi.add(new Date(item.tanggal).toISOString().split("T")[0]);
+    });
+    dataPengeluaranUnit.forEach(item => {
+        tanggalAdaTransaksi.add(new Date(item.tanggal).toISOString().split("T")[0]);
+    });
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'id',
+        contentHeight: 'auto', // Menghilangkan scrollbar jelek di samping kalender
+        
+        // 2. Fitur inject class CSS ke tanggal tertentu
+        dayCellClassNames: function(arg) {
+            // Jika tanggal sedang dirender ada di dalam list transaksi kita, kasih class 'has-transaction'
+            if (tanggalAdaTransaksi.has(arg.dateStr)) {
+                return ['has-transaction'];
+            }
+            return [];
+        },
+
+        dateClick: function(info) {
+            // Reset efek klik sebelumnya
+            document.querySelectorAll('.fc-daygrid-day').forEach(el => el.classList.remove('fc-day-selected'));
+            info.dayEl.classList.add('fc-day-selected');
+
+            let masuk = 0;
+            let keluar = 0;
+
+            // Hitung Pemasukan per tanggal
+            dataPemasukanUnitUnit.forEach(item => {
+                const tanggalItem = new Date(item.tanggal).toISOString().split("T")[0];
+                if(tanggalItem === info.dateStr) { masuk += Number(item.nominal); }
+            });
+
+            // Hitung Pengeluaran per tanggal
+            dataPengeluaranUnit.forEach(item => {
+                const tanggalItem = new Date(item.tanggal).toISOString().split("T")[0];
+                if(tanggalItem === info.dateStr) { keluar += Number(item.nominal); }
+            });
+
+            const saldo = masuk - keluar;
+            const ringkasan = document.getElementById("ringkasanTanggal");
+
+            if(ringkasan) {
+                // Format tanggal jadi cantik (Misal: 28 Juni 2026)
+                const tanggalCantik = info.date.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+
+                // 3. UI Ringkasan Baru (Bentuk Mini Card Modern)
+                ringkasan.innerHTML = `
+                    <div class="w-100 mt-2 p-3 rounded-3" style="background: var(--bg-body); border: 1px solid #e2e8f0;">
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3 pb-2" style="border-bottom: 1px dashed #cbd5e1;">
+                            <span class="fw-bold" style="color: var(--text-main); font-size: 14px;">
+                                <i class="bi bi-calendar2-event-fill me-2" style="color: var(--primary);"></i>${tanggalCantik}
+                            </span>
+                            <span class="badge rounded-pill shadow-sm" style="background: var(--primary); font-size: 12px; padding: 6px 12px;">
+                                Saldo: ${formatRupiah(saldo)}
+                            </span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <div class="text-success fw-bold" style="font-size: 13.5px;">
+                                <i class="bi bi-arrow-down-left-circle-fill me-1"></i> Masuk: ${formatRupiah(masuk)}
+                            </div>
+                            <div class="text-danger fw-bold" style="font-size: 13.5px;">
+                                <i class="bi bi-arrow-up-right-circle-fill me-1"></i> Keluar: ${formatRupiah(keluar)}
+                            </div>
+                        </div>
+
+                    </div>
+                `;
+            }
+        }
+    });
+
+    calendar.render();
+});

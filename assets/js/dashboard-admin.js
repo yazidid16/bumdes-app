@@ -305,129 +305,140 @@ dataPengeluaran.forEach(function(item) {
 });
 
 // Render Grafik Menggunakan Chart.js
-const ctx = document.getElementById("dashboardChart");
-new Chart(ctx, {
-   type: "bar",
-   data: {
-      labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
-      datasets: [
-         { label: "Pemasukan", data: dataChartMasuk },
-         { label: "Pengeluaran", data: dataChartKeluar }
-      ]
-   },
-   options: {
-      responsive: true,
-      maintainAspectRatio: false
-   }
-});
-
 /* =====================================
-   9. FULLCALENDAR DASHBOARD
+   CHART KEUANGAN DASHBOARD (MODERN STACKED)
+===================================== */
+const chartKeuangan = document.getElementById("dashboardChart");
+
+if(chartKeuangan){
+   new Chart(chartKeuangan, {
+      type: "bar",
+      data: {
+         labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+         datasets: [
+            {
+               label: "Pemasukan",
+               data: dataChartMasuk, // Variabel data pemasukanmu
+               backgroundColor: "#10b981", // Hijau Emerald
+               borderRadius: 8
+            },
+            {
+               label: "Pengeluaran",
+               data: dataChartKeluar, // Variabel data pengeluaranmu
+               backgroundColor: "#DC143C", // Abu-abu muda
+               borderRadius: 8
+            }
+         ]
+      },
+      options: {
+         responsive: true,
+         maintainAspectRatio: false,
+         scales: {
+            x: {
+               grid: { display: false } // Hilangkan garis vertikal biar bersih
+            },
+            y: {
+               beginAtZero: true,
+               grid: { 
+                  color: "#f1f5f9", // GARIS BORDER TIPIS (Grid horizontal)
+                  drawBorder: false 
+               }
+            }
+         }
+      }
+   });
+}
+
+
+/* ====================================
+   9. FULL CALENDAR DASHBOARD (MODERN)
 ===================================== */
 
 document.addEventListener('DOMContentLoaded', function () {
-
     const calendarEl = document.getElementById('calendar');
+    if(!calendarEl) return;
+
+    // 1. Kumpulkan semua tanggal yang memiliki transaksi ke dalam Set (biar unik/gak duplikat)
+    const tanggalAdaTransaksi = new Set();
+    
+    dataPemasukan.forEach(item => {
+        tanggalAdaTransaksi.add(new Date(item.tanggal).toISOString().split("T")[0]);
+    });
+    dataPengeluaran.forEach(item => {
+        tanggalAdaTransaksi.add(new Date(item.tanggal).toISOString().split("T")[0]);
+    });
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         locale: 'id',
-        height: 420,
-
-
-        /* =====================================
-        TODO:
-         GENERATE EVENT DARI TRANSAKSI
-
-        events: [
-            {
-                start: '2026-06-28',
-                display: 'background',
-                color: '#dcfce7'
-            }
-        ],
-        ===================================== */
+        contentHeight: 'auto', // Menghilangkan scrollbar jelek di samping kalender
         
-        /* =====================================
-            HIGHLIGHT TANGGAL TERPILIH
-         ===================================== */
-        dateClick:function(info) {
+        // 2. Fitur inject class CSS ke tanggal tertentu
+        dayCellClassNames: function(arg) {
+            // Jika tanggal sedang dirender ada di dalam list transaksi kita, kasih class 'has-transaction'
+            if (tanggalAdaTransaksi.has(arg.dateStr)) {
+                return ['has-transaction'];
+            }
+            return [];
+        },
 
-            //console.log(info.dateStr);
-            //console.log(dataPemasukan);
-            //console.log(dataPengeluaran);
-            
+        dateClick: function(info) {
+            // Reset efek klik sebelumnya
+            document.querySelectorAll('.fc-daygrid-day').forEach(el => el.classList.remove('fc-day-selected'));
+            info.dayEl.classList.add('fc-day-selected');
+
             let masuk = 0;
             let keluar = 0;
-         
-/* =====================================
-   RESET HIGHLIGHT TANGGAL
-===================================== */
 
-         document
-         .querySelectorAll('.fc-daygrid-day')
-         .forEach(el => el.classList.remove('fc-day-selected'));
-         
-         info.dayEl.classList.add('fc-day-selected');
-            
-        
-            /* =====================================
-            HITUNG PEMASUKAN TANGGAL TERPILIH
-            ===================================== */
+            // Hitung Pemasukan per tanggal
             dataPemasukan.forEach(item => {
-
-            const tanggalItem = new Date(item.tanggal)
-                .toISOString()
-                 .split("T")[0];
-
-            if(tanggalItem === info.dateStr){
-                masuk += Number(item.nominal);
-             }
-
+                const tanggalItem = new Date(item.tanggal).toISOString().split("T")[0];
+                if(tanggalItem === info.dateStr) { masuk += Number(item.nominal); }
             });
 
-            /* =====================================
-            HITUNG PENGELUARAN TANGGAL TERPILIH
-            ===================================== */
+            // Hitung Pengeluaran per tanggal
             dataPengeluaran.forEach(item => {
-
-            const tanggalItem = new Date(item.tanggal)
-            .toISOString()
-            .split("T")[0];
-
-             if(tanggalItem === info.dateStr){
-              keluar += Number(item.nominal);
-            }
-
+                const tanggalItem = new Date(item.tanggal).toISOString().split("T")[0];
+                if(tanggalItem === info.dateStr) { keluar += Number(item.nominal); }
             });
 
             const saldo = masuk - keluar;
-        
-/* =====================================
-   UPDATE RINGKASAN TANGGAL
-===================================== */
+            const ringkasan = document.getElementById("ringkasanTanggal");
 
-            document.getElementById("ringkasanTanggal").innerHTML = `
-                <span>📅 ${info.dateStr}</span>
-        
-                <span class="text-success fw-bold">
-                    Pemasukan: Rp ${masuk.toLocaleString("id-ID")}
-                </span>
-        
-                <span class="text-danger fw-bold">
-                    Pengeluaran: Rp ${keluar.toLocaleString("id-ID")}
-                </span>
-        
-                <span class="fw-bold">
-                    Saldo: Rp ${saldo.toLocaleString("id-ID")}
-                </span>
-            `;
+            if(ringkasan) {
+                // Format tanggal jadi cantik (Misal: 28 Juni 2026)
+                const tanggalCantik = info.date.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+
+                // 3. UI Ringkasan Baru (Bentuk Mini Card Modern)
+                ringkasan.innerHTML = `
+                    <div class="w-100 mt-2 p-3 rounded-3" style="background: var(--bg-body); border: 1px solid #e2e8f0;">
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3 pb-2" style="border-bottom: 1px dashed #cbd5e1;">
+                            <span class="fw-bold" style="color: var(--text-main); font-size: 14px;">
+                                <i class="bi bi-calendar2-event-fill me-2" style="color: var(--primary);"></i>${tanggalCantik}
+                            </span>
+                            <span class="badge rounded-pill shadow-sm" style="background: var(--primary); font-size: 12px; padding: 6px 12px;">
+                                Saldo: ${formatRupiah(saldo)}
+                            </span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <div class="text-success fw-bold" style="font-size: 13.5px;">
+                                <i class="bi bi-arrow-down-left-circle-fill me-1"></i> Masuk: ${formatRupiah(masuk)}
+                            </div>
+                            <div class="text-danger fw-bold" style="font-size: 13.5px;">
+                                <i class="bi bi-arrow-up-right-circle-fill me-1"></i> Keluar: ${formatRupiah(keluar)}
+                            </div>
+                        </div>
+
+                    </div>
+                `;
+            }
         }
     });
 
     calendar.render();
 });
-
 
 /* =====================================
    10. EXPORT PDF

@@ -634,47 +634,46 @@ bukaModal(
 // Menunggu HTML:
 // <canvas id="chartKeuangan"></canvas>
 
-const chartKeuangan =
-document.getElementById(
-   "dashboardChart"
-);
+const chartKeuangan = document.getElementById("dashboardChart");
 
 if(chartKeuangan){
-
-   new Chart(
-      chartKeuangan,
-      {
-         type:"bar",
-
-         data:{
-            labels:[
-               "Jan","Feb","Mar","Apr",
-               "Mei","Jun","Jul","Agu",
-               "Sep","Okt","Nov","Des"
-            ],
-         
-            datasets:[
-               {
-                  label:"Pemasukan",
-                  data:pemasukanBulanan
-               },
-               {
-                  label:"Pengeluaran",
-                  data:pengeluaranBulanan
+   new Chart(chartKeuangan, {
+      type: "bar",
+      data: {
+         labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+         datasets: [
+            {
+               label: "Pemasukan",
+               data: pemasukanBulanan, // Pake variabel data yang udah lu hitung
+               backgroundColor: "#10b981", // Hijau Emerald
+               borderRadius: 8
+            },
+            {
+               label: "Pengeluaran",
+               data: pengeluaranBulanan, // Pake variabel data yang udah lu hitung
+               backgroundColor: "#DC143C", // Abu-abu muda
+               borderRadius: 8
+            }
+         ]
+      },
+      options: {
+         responsive: true,
+         maintainAspectRatio: false,
+         scales: {
+            x: {
+               grid: { display: false } // Hilangkan garis vertikal biar bersih
+            },
+            y: {
+               beginAtZero: true,
+               grid: { 
+                  color: "#f1f5f9", // GARIS BORDER TIPIS (Grid horizontal)
+                  drawBorder: false 
                }
-            ]
-         },
-
-         options:{
-            responsive:true,
-            maintainAspectRatio:false
+            }
          }
-
       }
-   );
-
+   });
 }
-
 
 /* ====================================
    FULL CALENDAR DASHBOARD
