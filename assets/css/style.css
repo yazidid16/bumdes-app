@@ -305,16 +305,85 @@ body {
 }
 
 /* ===================================
-   6. FULLCALENDAR TWEAKS
+   6. FULLCALENDAR TWEAKS (MODERN CLEAN)
 =================================== */
 .fc {
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
+/* Hilangkan semua garis tabel/grid bawaan yang kaku */
 .fc-theme-standard td, .fc-theme-standard th, .fc-theme-standard .fc-scrollgrid {
-    border-color: #e2e8f0;
+    border: none !important;
 }
 
+/* Rapihkan header hari (Sen, Sel, Rab...) */
+.fc-col-header-cell {
+    padding-bottom: 10px;
+}
+.fc-col-header-cell-cushion {
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    text-decoration: none !important;
+}
+
+/* Tengahin angka tanggal */
+.fc-daygrid-day-top {
+    justify-content: center !important;
+    padding-top: 6px !important;
+}
+.fc-daygrid-day-number {
+    font-weight: 700 !important;
+    font-size: 14px;
+    color: var(--text-main) !important;
+    text-decoration: none !important;
+}
+
+/* Bentuk kotak (Frame) per tanggal */
+.fc-daygrid-day-frame {
+    margin: 3px !important; /* Jarak antar tanggal */
+    min-height: 45px !important; /* Biar ngga terlalu panjang ke bawah */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent !important; /* Siapin border transparan */
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+/* ==== STYLE JIKA ADA TRANSAKSI (BORDER KUNING/ORANGE) ==== */
+.has-transaction .fc-daygrid-day-frame {
+    border-color: #f59e0b !important; /* Border kuning/orange ala referensi */
+}
+/* Titik kecil notifikasi di pojok kanan atas */
+.has-transaction .fc-daygrid-day-frame::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    width: 6px;
+    height: 6px;
+    background: #f59e0b;
+    border-radius: 50%;
+}
+
+/* ==== STYLE SAAT TANGGAL DIKLIK ==== */
+.fc-day-selected .fc-daygrid-day-frame {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+.fc-day-selected .fc-daygrid-day-number {
+    color: white !important;
+}
+.fc-day-selected.has-transaction .fc-daygrid-day-frame::after {
+    background: white; /* Ubah warna titik jadi putih kalau lagi diklik */
+}
+
+/* Tombol Navigasi Kalender */
 .fc .fc-button-primary {
     background: #f1f5f9 !important;
     color: var(--text-main) !important;
@@ -324,26 +393,15 @@ body {
     text-transform: capitalize;
     box-shadow: none !important;
 }
-
 .fc .fc-button-primary:hover,
 .fc .fc-button-primary:not(:disabled).fc-button-active {
     background: var(--primary) !important;
     color: white !important;
 }
-
 .fc-toolbar-title {
     font-size: 1.25rem !important;
     font-weight: 800 !important;
     color: var(--text-main);
-}
-
-.fc-day-selected .fc-daygrid-day-frame {
-    background: var(--primary) !important;
-    border-radius: 12px;
-    color: white;
-}
-.fc-day-selected .fc-daygrid-day-number {
-    color: white !important;
 }
 
 /* ===================================
