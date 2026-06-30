@@ -435,47 +435,60 @@ body {
    SIDEBAR COLLAPSE FIX (DESKTOP)
 =================================== */
 @media (min-width: 993px) {
-    /* Kecilin ukuran sidebar */
     .sidebar.collapsed { 
         width: 90px; 
     }
     
-    /* Lebarin konten utama */
     .sidebar.collapsed + .main-content { 
         margin-left: 90px; 
         width: calc(100% - 90px); 
     }
     
-    /* Sembunyiin teks biar sisa ikon aja */
     .sidebar.collapsed .logo h4,
     .sidebar.collapsed .menu-title,
-    .sidebar.collapsed .nav-link span { 
+    .sidebar.collapsed .nav-link span,
+    .sidebar.collapsed .user-box { 
         display: none; 
     }
     
-    /* Rapiin logo jadi inisial 'B' */
     .sidebar.collapsed .logo { 
-        padding: 30px 0; 
+        padding: 30px 0 20px; 
         justify-content: center; 
     }
+    
     .sidebar.collapsed .logo::before { 
         content: "B"; 
-        font-size: 28px; 
+        font-size: 24px; 
         font-weight: 800; 
         color: white; 
         background: var(--primary);
-        width: 50px; height: 50px;
-        display: flex; justify-content: center; align-items: center;
+        width: 48px; 
+        height: 48px;
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
         border-radius: 12px;
         box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
     }
     
-    /* Rapiin ikon menu biar ke tengah */
+    /* Sentralisasi menu biar pas di tengah sidebar */
+    .sidebar.collapsed .sidebar-menu {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Bikin menu item bentuknya presisi (kotak rounded) & kasih jarak */
     .sidebar.collapsed .nav-link { 
         justify-content: center; 
-        padding: 14px 0; 
-        margin: 5px 15px; 
+        padding: 0; 
+        margin: 8px 0; 
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
     }
+    
     .sidebar.collapsed .nav-link i { 
         margin: 0; 
         font-size: 22px; 
