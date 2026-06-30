@@ -1,460 +1,432 @@
 /* ===================================
-   1. RESET
+   1. BASE & THEME VARIABLES (MODERN GREEN VIBE)
 =================================== */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+:root {
+    /* Modern Green Color Palette */
+    --primary: #10b981; /* Emerald Green */
+    --primary-hover: #059669; /* Darker Emerald */
+    --bg-body: #f8fafc; /* Very soft slate-gray background */
+    --bg-surface: #ffffff;
+    
+    --text-main: #0f172a; /* Slate dark text (very professional) */
+    --text-muted: #64748b; /* Slate gray for labels */
+    
+    --success-bg: #d1fae5;
+    --success-text: #059669;
+    
+    --danger-bg: #fee2e2;
+    --danger-text: #dc2626;
+
+    --radius-lg: 20px;
+    --radius-md: 12px;
+    
+    /* Shadows adjusted to fit the slate/green theme */
+    --shadow-soft: 0px 4px 20px rgba(15, 23, 42, 0.04);
+    --shadow-hover: 0px 10px 25px rgba(15, 23, 42, 0.08);
 }
 
-body{
-    font-family:'Segoe UI',sans-serif;
-    background:#f8fafc;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
+body {
+    background: var(--bg-body);
+    color: var(--text-main);
+}
 
 /* ===================================
-   2. VARIABLES
+   2. LAYOUT
 =================================== */
-
-:root{
-    --primary:#4f46e5;
-    --sidebar:#172554;
-    --sidebar-hover:#1e3a8a;
-    --bg:#f8fafc;
-    --border:#e5e7eb;
-    --card:#ffffff;
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
+.main-content {
+    margin-left: 280px;
+    width: calc(100% - 280px);
+    transition: 0.3s ease-in-out;
+}
+
+.content-wrapper {
+    padding: 0 30px 30px 30px;
+}
 
 /* ===================================
-   3. LAYOUT
+   3. LIGHT SIDEBAR (CLEAN STYLE)
 =================================== */
-
-.wrapper{
-    display:flex;
-    min-height:100vh;
+.sidebar {
+    width: 280px;
+    background: var(--bg-surface);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+    transition: 0.3s ease-in-out;
+    z-index: 1000;
+    border-right: 1px solid #f1f5f9;
 }
 
-.main-content{
-    margin-left:270px;
-    width:calc(100% - 270px);
+.sidebar .logo {
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.content-wrapper{
-    padding:25px;
+.sidebar .logo h4 {
+    color: var(--text-main);
+    font-weight: 800;
+    font-size: 24px;
+    margin: 0;
+    letter-spacing: 0.5px;
 }
 
+.sidebar .user-box {
+    display: none; 
+}
+
+.sidebar-menu {
+    padding: 0 20px;
+}
+
+.menu-title {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 25px 10px 10px;
+}
+
+.sidebar .nav-link {
+    color: var(--text-muted);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: 0.3s ease;
+    border-radius: var(--radius-md);
+    margin-bottom: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.sidebar .nav-link i {
+    font-size: 18px;
+}
+
+.sidebar .nav-link:hover {
+    background: #f1f5f9;
+    color: var(--primary);
+}
+
+.sidebar .nav-link.active {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 8px 16px rgba(16, 185, 129, 0.25); /* Glowing green shadow */
+}
 
 /* ===================================
-   4. SIDEBAR
+   4. TOPBAR (SEAMLESS)
 =================================== */
-
-.sidebar{
-    width:270px;
-    background:var(--sidebar);
-    color:white;
-
-    position:fixed;
-    top:0;
-    left:0;
-    bottom:0;
-
-    overflow-y:auto;
+.topbar {
+    background: transparent;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
 }
 
-.logo{
-    padding:20px;
-    background:#0891b2;
-    font-weight:700;
-    font-size:28px;
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-.user-box{
-    padding:20px;
-    border-bottom:1px solid rgba(255,255,255,.1);
+.topbar-left h3 {
+    color: var(--text-main);
+    font-weight: 800;
+    font-size: 28px;
+    margin: 0;
 }
 
-.menu-title{
-    color:#94a3b8;
-    font-size:12px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    margin:20px;
-}
-
-.sidebar .nav-link{
-    color:#dbeafe;
-    padding:12px 20px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    transition:.3s;
-    border-radius:8px;
-    margin:2px 10px;
-}
-
-.sidebar .nav-link:hover{
-    background:var(--sidebar-hover);
-}
-
-.sidebar .nav-link.active{
-    background:#0891b2;
-    color:white;
-}
-
-
-/* ===================================
-   5. TOPBAR
-=================================== */
-
-.topbar{
-    background:white;
-    border-bottom:1px solid var(--border);
-
-    padding:20px 30px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.topbar-left{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.topbar-right{
-    display:flex;
-    align-items:center;
-    gap:15px;
+.topbar-left small {
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 14px;
 }
 
 .menu-toggle,
-.icon-btn{
-    width:40px;
-    height:40px;
-
-    border:none;
-    border-radius:50%;
-
-    background:#f1f5f9;
+.icon-btn {
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    background: var(--bg-surface);
+    color: var(--text-muted);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: 0.3s;
+    font-size: 18px;
+    border: 1px solid #f1f5f9;
 }
 
-.user-profile{
-    display:flex;
-    align-items:center;
-    gap:10px;
+.menu-toggle:hover,
+.icon-btn:hover {
+    color: var(--primary);
+    transform: translateY(-2px);
+    border-color: var(--primary);
 }
 
-.avatar{
-    width:40px;
-    height:40px;
-
-    border-radius:50%;
-    background:var(--primary);
-    color:white;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    font-weight:bold;
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-
-/* ===================================
-   6. CARDS
-=================================== */
-
-.modern-card{
-    background:white;
-    border:1px solid var(--border);
-
-    border-radius:16px;
-    padding:20px;
-
-    box-shadow:0 2px 10px rgba(0,0,0,.04);
-
-    transition:.3s;
+.user-profile {
+    background: var(--bg-surface);
+    padding: 6px 16px 6px 6px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--shadow-soft);
+    cursor: pointer;
+    border: 1px solid #f1f5f9;
 }
 
-.modern-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+.user-profile span {
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 14px;
 }
 
-.modern-card span{
-    color:#64748b;
-}
-
-.modern-card h3{
-    margin-top:10px;
-    font-weight:700;
-}
-
-.card-header-custom{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-}
-
-.card-icon{
-    width:55px;
-    height:55px;
-
-    border-radius:50%;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    font-size:22px;
-}
-
-.income-icon{
-    background:#dcfce7;
-    color:#16a34a;
-}
-
-.expense-icon{
-    background:#fee2e2;
-    color:#dc2626;
-}
-
-.card-value{
-    font-size: clamp(
-        1.5rem,
-        1.8vw,
-        2.8rem
-    );
-
-    font-weight:700;
-    line-height:1.2;
-
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-.card-icon{
-    transition:.3s;
-}
-
-.modern-card:hover .card-icon{
-    transform:scale(1.1);
-}
-/* ===================================
-   7. DASHBOARD BOX
-=================================== */
-
-.dashboard-box{
-    background:white;
-    border:1px solid var(--border);
-    height:100%;
-
-    border-radius:16px;
-    padding:20px;
-
-    box-shadow:0 2px 10px rgba(0,0,0,.04);
-}
-
-
-/* ===================================
-   8. PLACEHOLDER
-=================================== */
-
-.placeholder-box{
-    min-height:300px;
-    padding: 20px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    background:#f1f5f9;
-    border-radius:12px;
-    margin-top:15px;
-}
-
-
-/* ===================================
-   9. RESPONSIVE
-=================================== */
-
-@media(max-width:992px){
-
-    .sidebar{
-        width:80px;
-    }
-
-    .main-content{
-        margin-left:80px;
-        width:calc(100% - 80px);
-    }
-
-    .menu-title,
-    .user-box,
-    .sidebar .nav-link span{
-        display:none;
-    }
-
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
 }
 
 /* ===================================
-   10. UTILITIES
+   5. CARDS & DASHBOARD BOX
 =================================== */
-
-h3,h4,h5{
-    margin-bottom:0;
-}
-
-.nav-link{
-    text-decoration:none;
-}
-
-.icon-btn:hover,
-.menu-toggle:hover{
-    background:#e2e8f0;
-}
-
-/* =====================================
-   SIDEBAR COLLAPSE
-===================================== */
-
-.sidebar{
+.modern-card,
+.dashboard-box {
+    background: var(--bg-surface);
+    border: 1px solid #f1f5f9; /* Subtle border to pop from bg */
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
     transition: 0.3s ease;
+    height: 100%;
 }
 
-.main-content{
-    transition: 0.3s ease;
+.modern-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
 }
 
-.sidebar.collapsed{
-    width:80px;
+.card-header-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.sidebar.collapsed .logo h4,
-.sidebar.collapsed .user-box,
-.sidebar.collapsed .menu-title,
-.sidebar.collapsed .nav-link span{
-    display:none;
+.card-header-custom span {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
 }
 
-.sidebar.collapsed + .main-content{
-    margin-left:80px;
-    width:calc(100% - 80px);
+.card-value {
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1;
+    margin: 0;
 }
 
-.modern-card{
-    cursor:pointer;
+.card-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    flex-shrink: 0;
 }
 
-.chart-container{
-    height:420px;
-    padding:20px;
+.income-icon {
+    background: var(--success-bg);
+    color: var(--success-text);
 }
 
-.placeholder-box{
-    height:420px;
-
+.expense-icon {
+    background: var(--danger-bg);
+    color: var(--danger-text);
 }
 
-.fc .fc-button-primary{
-    background:#0891b2 !important;
-    border:none !important;
+.dashboard-box h4,
+.dashboard-box h5 {
+    color: var(--text-main);
+    font-weight: 800;
+    margin-bottom: 20px;
 }
 
-.fc .fc-button-primary:hover{
-    background:#0e7490 !important;
+.chart-container,
+.placeholder-box {
+    min-height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.fc-toolbar-title{
-    font-size:24px !important;
-    font-weight:700 !important;
+/* ===================================
+   6. FULLCALENDAR TWEAKS
+=================================== */
+.fc {
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-
-/* =====================================
-   FULLCALENDAR SELECTED DAY
-===================================== */
-
-.fc-day-selected{
-    background:#dbeafe !important;
-    border:2px solid #2563eb !important;
+.fc-theme-standard td, .fc-theme-standard th, .fc-theme-standard .fc-scrollgrid {
+    border-color: #e2e8f0;
 }
 
-/* =====================================
-   MOBILE PHONE
-===================================== */
+.fc .fc-button-primary {
+    background: #f1f5f9 !important;
+    color: var(--text-main) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 700;
+    text-transform: capitalize;
+    box-shadow: none !important;
+}
 
-@media(max-width:768px){
+.fc .fc-button-primary:hover,
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+    background: var(--primary) !important;
+    color: white !important;
+}
 
-    .sidebar{
-        width:70px;
+.fc-toolbar-title {
+    font-size: 1.25rem !important;
+    font-weight: 800 !important;
+    color: var(--text-main);
+}
+
+.fc-day-selected .fc-daygrid-day-frame {
+    background: var(--primary) !important;
+    border-radius: 12px;
+    color: white;
+}
+.fc-day-selected .fc-daygrid-day-number {
+    color: white !important;
+}
+
+/* ===================================
+   7. FIX MOBILE RESPONSIVE
+=================================== */
+@media (max-width: 992px) {
+    .sidebar { width: 90px; }
+    .main-content { margin-left: 90px; width: calc(100% - 90px); }
+    .menu-title, .sidebar .nav-link span { display: none; }
+    .sidebar .logo { padding: 30px 0; justify-content: center; }
+    .sidebar .logo h4 { display: none; }
+    .sidebar .logo::before { 
+        content: "B"; 
+        font-size: 28px; 
+        font-weight: 800; 
+        color: white; 
+        background: var(--primary);
+        width: 50px; height: 50px;
+        display: flex; justify-content: center; align-items: center;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+    }
+    .sidebar .nav-link { justify-content: center; padding: 14px 0; margin: 5px 15px; }
+    .sidebar .nav-link i { margin: 0; font-size: 22px; }
+}
+
+@media (max-width: 768px) {
+    .wrapper { overflow-x: hidden; }
+    
+    .sidebar {
+        width: 280px;
+        transform: translateX(-100%);
+        box-shadow: 10px 0 30px rgba(15, 23, 42, 0.05);
+    }
+    
+    .main-content { margin-left: 0; width: 100%; }
+    
+    .sidebar.collapsed { transform: translateX(0); }
+    .sidebar.collapsed + .main-content { margin-left: 0; width: 100%; }
+
+    .content-wrapper { padding: 0 16px 20px 16px; }
+    
+    .topbar {
+        padding: 20px 16px;
+        flex-wrap: nowrap; 
+        gap: 10px;
+    }
+    
+    .topbar-left { gap: 10px; }
+    .topbar-left h3 {
+        font-size: 1.1rem; 
+        white-space: nowrap;
+    }
+    .topbar-left small { font-size: 0.75rem; }
+
+    .topbar-right { gap: 8px; }
+    
+    .user-profile span, .user-profile .bi-chevron-down { display: none; }
+    
+    .user-profile {
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+        border: none;
+    }
+    
+    .menu-toggle, .icon-btn {
+        width: 40px;
+        height: 40px;
     }
 
-    .main-content{
-        margin-left:70px;
-        width:calc(100% - 70px);
+    .modern-card { padding: 20px; }
+    .card-header-custom { align-items: center; }
+    .card-value {
+        font-size: 1.3rem;
+        margin-top: 4px;
+    }
+    .card-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
     }
 
-    .content-wrapper{
-        padding:15px;
-    }
-
-    .topbar{
-        padding:15px;
-        flex-wrap:wrap;
-        gap:10px;
-    }
-
-    .topbar-right{
-        width:100%;
-        justify-content:flex-end;
-        gap:8px;
-    }
-
-    .user-profile span,
-    .user-profile small{
-        display:none;
-    }
-
-    .modern-card{
-        padding:16px;
-    }
-
-    .card-icon{
-        width:60px;
-        height:60px;
-        font-size:18px;
-    }
-
-    .card-value{
-        font-size:2rem;
-    }
-
-    .dashboard-box{
-        padding:15px;
-    }
-
-    .chart-container{
-        height:300px;
-        padding:10px;
-    }
-
-    .placeholder-box{
-        height:300px;
-    }
-
-    .sidebar .logo{
-        font-size:0;
-    }
-
-    .sidebar .logo::after{
-        content:"B";
-        font-size:28px;
-        font-weight:700;
-    }
+    .dashboard-box { padding: 16px; }
+    .chart-container, .placeholder-box { min-height: 250px; }
 }
