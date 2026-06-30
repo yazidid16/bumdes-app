@@ -74,69 +74,69 @@
                     </div>
                 </div>
 
-                <!-- CARD RINGKASAN -->
-                <div class="row g-3">
-                    <!-- Total Saldo -->
-                    <div class="col-md-3">
-                        <div class="modern-card" style="border: 1px solid var(--primary); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.1);">
-                            <div class="card-header-custom">
-                                <div>
-                                    <span class="fw-bold" style="color: var(--primary);">Saldo BUMDes Saat Ini</span>
-                                    <h3 id="saldoBUMDes" class="card-value">Rp 0</h3>
-                                </div>
-                                <div class="card-icon" style="background: var(--primary); color: white;">
-                                    <i class="bi bi-safe2"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- CARD RINGKASAN (SALDO DI ATAS MANJANG, SISA 3 DI BAWAH) -->
+<div class="row g-3">
+    
+    <!-- SALDO BUMDES (Full Width) -->
+    <div class="col-12">
+        <div class="modern-card" style="border: 1px solid var(--primary); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.1); display: flex; align-items: center; justify-content: center; text-align: center; position: relative;">
+            
+            <div>
+                <span class="fw-bold" style="color: var(--primary);">Saldo BUMDes Saat Ini</span>
+                <h2 id="saldoBUMDes" class="card-value m-0">Rp 0</h2>
+            </div>
+    
+            <div class="card-icon" style="background: var(--primary); color: white; width: 60px; height: 60px; font-size: 28px; position: absolute; right: 24px;">
+                <i class="bi bi-safe2"></i>
+            </div>
+        </div>
+    </div>
 
-                    <!-- Pemasukan Bulan Ini -->
-                    <div class="col-md-3">
-                        <div class="modern-card">
-                            <div class="card-header-custom">
-                                <div>
-                                    <span>Pemasukan Bulan Ini</span>
-                                    <h3 id="pemasukanBulanIni" class="card-value">Rp 0</h3>
-                                </div>
-                                <div class="card-icon income-icon">
-                                    <i class="bi bi-graph-up-arrow"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pengeluaran Bulan Ini -->
-                    <div class="col-md-3">
-                        <div class="modern-card">
-                            <div class="card-header-custom">
-                                <div>
-                                    <span>Pengeluaran Bulan Ini</span>
-                                    <h3 id="pengeluaranBulanIni" class="card-value">Rp 0</h3>
-                                </div>
-                                <div class="card-icon expense-icon">
-                                    <i class="bi bi-graph-down-arrow"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Total Transaksi Bulan Ini -->
-                    <div class="col-md-3">
-                        <div class="modern-card">
-                            <div class="card-header-custom">
-                                <div>
-                                    <span>Total Transaksi (Bulan Ini)</span>
-                                    <h3 id="jumlahTransaksiBulanIni" class="card-value">0</h3>
-                                </div>
-                                <div class="card-icon" style="background: var(--bg-body); color: var(--text-muted);">
-                                    <i class="bi bi-journal-text"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Pemasukan Bulan Ini (Col 4) -->
+    <div class="col-md-4">
+        <div class="modern-card">
+            <div class="card-header-custom">
+                <div>
+                    <span>Pemasukan Bulan Ini</span>
+                    <h3 id="pemasukanBulanIni" class="card-value">Rp 0</h3>
                 </div>
+                <div class="card-icon income-icon">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Pengeluaran Bulan Ini (Col 4) -->
+    <div class="col-md-4">
+        <div class="modern-card">
+            <div class="card-header-custom">
+                <div>
+                    <span>Pengeluaran Bulan Ini</span>
+                    <h3 id="pengeluaranBulanIni" class="card-value">Rp 0</h3>
+                </div>
+                <div class="card-icon expense-icon">
+                    <i class="bi bi-graph-down-arrow"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Transaksi Bulan Ini (Col 4) -->
+    <div class="col-md-4">
+        <div class="modern-card">
+            <div class="card-header-custom">
+                <div>
+                    <span>Total Transaksi (Bulan Ini)</span>
+                    <h3 id="jumlahTransaksiBulanIni" class="card-value">0</h3>
+                </div>
+                <div class="card-icon" style="background: var(--bg-body); color: var(--text-muted);">
+                    <i class="bi bi-journal-text"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                 <!-- GRAFIK & TABEL -->
                 <div class="row mt-4">
                     <!-- Bagian Kiri: Grafik -->
