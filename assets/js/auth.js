@@ -1,44 +1,9 @@
 /* =====================================
-   AUTH SERVICE (FUTURE-PROOF)
+   AUTH SERVICE (FIXED)
 ===================================== */
 
-const loginForm = document.getElementById("loginForm");
-
-if (loginForm) {
-    loginForm.addEventListener("submit", function(e) {
-        e.preventDefault();
-        
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        // Simulasi Auth Service
-        // NANTI: Ganti pakai fetch('/api/login', { method: 'POST', body: ... })
-        if (username === "admin" && password === "123") {
-            // Sukses
-            localStorage.setItem("user_token", "bumdes_token_secure_99");
-            alert("Login berhasil!");
-            window.location.href = "dashboard-admin.html";
-        } else {
-            alert("Username atau Password salah!");
-        }
-    });
-}
-
-// FUNGSI PROTEKSI (Pasang di setiap halaman Dashboard)
-function checkAuth() {
-    const token = localStorage.getItem("user_token");
-    if (!token) {
-        window.location.href = "login.html";
-    }
-}
-
-
-/* =====================================
-   AUTH SERVICE (FUTURE-PROOF)
-===================================== */
-
+// 1. REGISTER LOGIC
 const registerForm = document.getElementById("registerForm");
-
 if (registerForm) {
     registerForm.addEventListener("submit", function(e) {
         e.preventDefault();
@@ -52,8 +17,7 @@ if (registerForm) {
             return;
         }
 
-        // Simulasi Save ke Database
-        // NANTI: Ganti fetch('/api/register', ...)
+        // Simpan sebagai object user
         const userData = { username: user, password: pass };
         localStorage.setItem("user_bumdes", JSON.stringify(userData));
         
@@ -62,21 +26,40 @@ if (registerForm) {
     });
 }
 
-// Update juga logic login di auth.js biar ngecek ke localStorage
+// 2. LOGIN LOGIC
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
     loginForm.addEventListener("submit", function(e) {
         e.preventDefault();
         
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        const savedUser = JSON.parse(localStorage.getItem("user_bumdes"));
+        const usernameInput = document.getElementById("username").value;
+        const passwordInput = document.getElementById("password").value;
+        
+        // Ambil dari localStorage
+        const savedUserJSON = localStorage.getItem("user_bumdes");
 
-        if (savedUser && username === savedUser.username && password === savedUser.password) {
+        if (!savedUserJSON) {
+            alert("Belum ada akun terdaftar! Silakan daftar dulu.");
+            return;
+        }
+
+        const savedUser = JSON.parse(savedUserJSON);
+
+        // Verifikasi
+        if (usernameInput === savedUser.username && passwordInput === savedUser.password) {
             localStorage.setItem("user_token", "bumdes_token_secure_99");
+            alert("Login berhasil!");
             window.location.href = "dashboard-admin.html";
         } else {
             alert("Username atau Password salah!");
         }
     });
+}
+
+// 3. FUNGSI PROTEKSI (Pasang di dashboard)
+function checkAuth() {
+    const token = localStorage.getItem("user_token");
+    if (!token) {
+        window.location.href = "login.html";
+    }
 }
